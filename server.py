@@ -87,17 +87,23 @@ def add_new_answer(question_id):
 
 @app.route('/question/<question_id>/delete', methods=["POST"])
 def delete_question(question_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     connection.delete_question_from_database(question_id)
     return redirect(url_for('display_questions_list', question_id=question_id))
 
 
 @app.route('/question/<question_id>/delete', methods=["GET"])
 def confirm_delete_question(question_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     return render_template("confirm_delete_question.html", question_id=question_id)
 
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     question_id = request.args.get('question_id')
     connection.delete_answer_from_database(answer_id)
     return redirect(url_for('display_single_question', question_id=question_id))
@@ -105,6 +111,8 @@ def delete_answer(answer_id):
 
 @app.route('/question/<question_id>/edit', methods=["POST", "GET"])
 def update_question(question_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     if request.method == 'GET':
         title_content = connection.get_question_by_id(question_id)["title"]
         question_content = connection.get_question_by_id(question_id)["message"]
@@ -119,6 +127,8 @@ def update_question(question_id):
 
 @app.route('/answer/<answer_id>/edit', methods=["POST", "GET"])
 def update_answer(answer_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     if request.method == 'GET':
         answer_content = connection.get_answer_by_id(answer_id)["message"]
         return render_template('edit_answer.html', answer_id=answer_id, answer_content=answer_content)
@@ -131,6 +141,8 @@ def update_answer(answer_id):
 
 @app.route('/comment/<comment_id>/edit', methods=["POST", "GET"])
 def update_comment(comment_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     if request.method == 'GET':
         comment_content = connection.get_comment_by_id(comment_id)["message"]
         return render_template('edit_comment.html', comment_id=comment_id, comment_content=comment_content)
@@ -143,6 +155,8 @@ def update_comment(comment_id):
 
 @app.route('/comments/<comment_id>/delete')
 def delete_comment(comment_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     connection.delete_comment_from_database(comment_id)
     question_id = request.args.get('question_id')
     return redirect(url_for('display_single_question', comment_id=comment_id, question_id=question_id))
@@ -234,6 +248,8 @@ def get_tags_for_question(question_id):
 
 @app.route('/question/<question_id>/delete_tag', methods=["POST"])
 def delete_tag(question_id: int):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     tags_for_delete = {'question_id': question_id, 'tag_id': request.form.get('tag-id')}
     connection.delete_tag_for_question(tags_for_delete)
     return redirect(url_for('display_single_question', question_id=question_id, tags_for_delete=tags_for_delete))
