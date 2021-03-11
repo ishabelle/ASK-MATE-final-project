@@ -1,7 +1,6 @@
 import os
 from datetime import timedelta, datetime
 
-
 from flask import Flask, render_template, request, redirect, url_for, session
 import util
 import connection
@@ -60,7 +59,8 @@ def add_new_question():
     if request.method == 'GET':
         return render_template('add_question.html')
     if request.method == 'POST':
-        question = {'user_id': session['user_id'], 'submission_time': connection.get_submission_time(), 'view_number': 0,
+        question = {'user_id': session['user_id'], 'submission_time': connection.get_submission_time(),
+                    'view_number': 0,
                     'vote_number': 0, 'title': request.form.get('title'),
                     'message': request.form.get('message'), 'image': None}
         connection.insert_question_to_database(question)
@@ -76,7 +76,7 @@ def add_new_answer(question_id):
     if request.method == 'GET':
         return render_template('add_answer.html', question_id=question_id)
     if request.method == 'POST':
-        answer = {'user_id': session['user_id'],'submission_time': connection.get_submission_time(), 'vote_number': 0,
+        answer = {'user_id': session['user_id'], 'submission_time': connection.get_submission_time(), 'vote_number': 0,
                   'question_id': question_id, 'message': request.form.get('message'),
                   'image': request.form.get('image')}
         connection.insert_answer_to_database(answer)
@@ -169,31 +169,39 @@ def vote_for_answer(answer_id):
 
 @app.route('/question/<question_id>/new-comment', methods=["GET", "POST"])
 def add_comment_to_question(question_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     if request.method == 'GET':
         return render_template('add_comment_for_question.html', question_id=question_id)
     if request.method == 'POST':
-        new_comment = {'question_id': question_id, 'answer_id': None,
+        new_comment = {'user_id': session['user_id'], 'question_id': question_id, 'answer_id': None,
                        'message': request.form.get('message'), 'submission_time': connection.get_submission_time(),
                        'edited_count': 0}
         connection.insert_comment_question_to_database(new_comment)
+        user_id = session['user_id']
+        connection.update_comment_count(user_id)
     return redirect(url_for('display_single_question', question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/new-comment', methods=["GET", "POST"])
 def add_comment_to_answer(answer_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     question_id = request.args.get("question_id")
     if request.method == 'GET':
         return render_template('add_comment_for_answer.html', answer_id=answer_id, question_id=question_id)
     if request.method == 'POST':
         new_comment = {
-                    'question_id': question_id,
-                    'answer_id': answer_id,
-                    'message': request.form.get('message'),
-                    'submission_time': connection.get_submission_time(),
-                    'edited_count': 0
-                    }
+            'user_id': session['user_id'],
+            'question_id': question_id,
+            'answer_id': answer_id,
+            'message': request.form.get('message'),
+            'submission_time': connection.get_submission_time(),
+            'edited_count': 0
+        }
         connection.insert_comment_answer_to_database(new_comment)
-
+        user_id = session['user_id']
+        connection.update_comment_count(user_id)
         return redirect(url_for('display_single_question',
                                 question_id=question_id,
                                 ))
