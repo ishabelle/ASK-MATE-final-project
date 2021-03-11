@@ -71,13 +71,17 @@ def add_new_question():
 
 @app.route('/question/<question_id>/add_new_answer', methods=['POST', 'GET'])
 def add_new_answer(question_id):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     if request.method == 'GET':
         return render_template('add_answer.html', question_id=question_id)
     if request.method == 'POST':
-        answer = {'submission_time': connection.get_submission_time(), 'vote_number': 0,
+        answer = {'user_id': session['user_id'],'submission_time': connection.get_submission_time(), 'vote_number': 0,
                   'question_id': question_id, 'message': request.form.get('message'),
                   'image': request.form.get('image')}
         connection.insert_answer_to_database(answer)
+        user_id = session['user_id']
+        connection.update_answer_count(user_id)
         return redirect(url_for('display_single_question', question_id=question_id))
 
 
