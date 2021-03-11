@@ -55,10 +55,12 @@ def display_single_question(question_id):
 
 @app.route('/add_new_question', methods=['POST', 'GET'])
 def add_new_question():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     if request.method == 'GET':
         return render_template('add_question.html')
     if request.method == 'POST':
-        question = {'submission_time': connection.get_submission_time(), 'view_number': 0,
+        question = {'user_id': session['user_id'], 'submission_time': connection.get_submission_time(), 'view_number': 0,
                     'vote_number': 0, 'title': request.form.get('title'),
                     'message': request.form.get('message'), 'image': None}
         connection.insert_question_to_database(question)

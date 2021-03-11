@@ -77,10 +77,11 @@ def get_answers_by_question_id(cursor: RealDictCursor, id: int):
 @common.connection_handler
 def insert_question_to_database(cursor: RealDictCursor, question: dict):
     query = """
-            INSERT INTO question (submission_time, title, message, vote_number, view_number)
-            VALUES (%(submission_time)s, %(title)s, %(message)s, %(vote_number)s, %(view_number)s);
+            INSERT INTO question (user_id, submission_time, title, message, vote_number, view_number)
+            VALUES (%(user_id)s, %(submission_time)s, %(title)s, %(message)s, %(vote_number)s, %(view_number)s);
             """
     cursor.execute(query, {
+        'user_id': question['user_id'],
         'submission_time': question['submission_time'],
         'message': question['message'],
         'title': question['title'],
