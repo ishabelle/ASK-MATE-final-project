@@ -235,7 +235,7 @@ def question_list_by_phrase():
     return render_template('list.html', questions=questions)
 
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if 'user_id' in session:
         return redirect(url_for("display_questions_list"))
@@ -247,7 +247,25 @@ def register():
             flash('Not registered')
         connection.register_user(username, password, submission_time)
         return redirect(url_for('login'))
-    return render_template("register.html")
+    return render_template('register.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if 'user_id' in session:
+        return redirect(url_for('display_questions_list'))
+    if request.method == 'POST':
+        username = request.form.get('username')
+        typed_password = request.form.get('password')
+        user = connection.check_user(username)
+        if user and connection.verify_password(typed_password, user['password']):
+            session['user_id'] = user['id']
+            session['username'] = username
+            print('User logged in!')
+            return redirect('/')
+        else:
+            print('User or Password do not match')
+    return render_template('login.html')
 
 
 if __name__ == "__main__":
