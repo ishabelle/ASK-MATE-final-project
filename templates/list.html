@@ -4,10 +4,15 @@
 
     <h1 class="main-title">Don't even ask, mate!</h1>
     <div>
-        {% if 'user_id' not in session %}
-
-            <a href="{{ url_for('register') }}">REGISTER</a>
-
+        {% if 'user_id' in session %}
+            {#            <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>#}
+            {#            <a class="nav-link" href="/users">Users<span class="sr-only">(current)</span></a>#}
+            <a href="/add_question">Add question</a>
+        {% else %}
+            <a href="register">REGISTER</a>
+            <br>
+            <br>
+            <a href="login">LOGIN</a>
         {% endif %}
     </div>
     <a href="{{ url_for('add_new_question') }}"><h2>Ask a new question</h2></a>
