@@ -1,5 +1,7 @@
 from functools import reduce
 
+import bcrypt
+
 import common
 from psycopg2.extras import RealDictCursor
 import datetime
@@ -360,23 +362,32 @@ def get_question_by_phrase(cursor, phrase):
 
 
 @common.connection_handler
-def check_user(cursor):
+def check_username_exists(cursor: RealDictCursor, username: str):
     query = """
-    SELECT email FROM users
-    """
-    cursor.execute(query)
-    all_data = cursor.fetchall()
-    data = [(reduce(lambda red: red, user)) for user in all_data]
-    return data
+        SELECT * FROM users
+        WHERE username = %(username)s;
+         """
+    cursor.execute(query, {
+        'username': username
+    })
+    return cursor.fetchone()
 
 
 @common.connection_handler
-def add_user_to_database(cursor, email, password):
+def register_user(cursor: RealDictCursor, username: str, seen_password: str, submission_time: int):
+    if check_username_exists(username):
+        return False
     query = """
-    INSERT INTO users(email, password)
-    VALUES (%s, %s)
-    """
-    cursor.execute(query, {
-        'email': email,
-        'password': password})
-    return "NEW USER ADDED"
+    INSERT INTO users (username, password, submission_time, count_questions, count_answers, count_comments, reputation)
+    VALUES (%(username)s, %(password)s, %(submission_time)s, 0, 0, 0, 0)
+           """
+    return cursor.execute(query, {
+        'username': username,
+        'password': encrypt_password(seen_password),
+        'submission_time': submission_time
+    })
+
+
+def encrypt_password(password):
+    hashed_pass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_pass.decode('utf-8')

@@ -1,7 +1,15 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
     <h1 class="main-title">Don't even ask, mate!</h1>
+    <div>
+        {% if 'user_id' not in session %}
+
+            <a href="{{ url_for('register') }}">REGISTER</a>
+
+        {% endif %}
+    </div>
     <a href="{{ url_for('add_new_question') }}"><h2>Ask a new question</h2></a>
     <br>
     <h1>Search by phrase</h1>
@@ -13,6 +21,7 @@
     <br>
     {% if title == "List questions" %}
         <form action="{{ url_for('display_questions_list', order_by=order_by, order=order) }}" method="GET">
+
             <label for="order_by">Sort questions by: </label>
             <select name="order_by" id="order_by">
                 {% for key, option in select_options.items() %}

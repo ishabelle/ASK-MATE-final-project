@@ -1,9 +1,14 @@
+import os
+from datetime import timedelta, datetime
+
 import bcrypt
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import util
 import connection
 
 app = Flask(__name__)
+app.secret_key = (os.urandom(16))
+app.permanent_session_lifetime = timedelta(minutes=5)
 
 
 @app.route("/")
@@ -230,25 +235,19 @@ def question_list_by_phrase():
     return render_template('list.html', questions=questions)
 
 
-@app.route('/register', methods=["GET", "POST"])
-def register_user():
-    login = request.form.get('login')
-    password = request.form.get('password')
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if 'user_id' in session:
+        return redirect(url_for("display_questions_list"))
     if request.method == 'POST':
-        if login not in connection.check_user():
-            hashed_password = hash_password(password)
-            connection.add_user_to_database(login, hashed_password)
-            return redirect(url_for('get_5_latest_questions'))
-        else:
-            no_user = "yes"
-            return render_template('server_reply.html', no_user=no_user)
-    else:
-        return render_template('registration.html')
-
-
-def hash_password(unencrypted_password):
-    hashed_bytes = bcrypt.hashpw(unencrypted_password.encode('utf-8'), bcrypt.gensalt())
-    return hashed_bytes.decode('utf-8')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if connection.register_user(username, password, submission_time) is False:
+            flash('Not registered')
+        connection.register_user(username, password, submission_time)
+        return redirect(url_for('login'))
+    return render_template("register.html")
 
 
 if __name__ == "__main__":
