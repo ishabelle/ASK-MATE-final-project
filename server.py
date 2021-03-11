@@ -282,6 +282,18 @@ def users():
     return render_template("users.html", users=users_data)
 
 
+@app.route("/users/<user_id>")
+def user_page(user_id):
+    if 'user_id' not in session:
+        print('YOU ARE NOT LOG IN!')
+        return redirect(url_for('login'))
+    questions = connection.get_questions_by_user_id(user_id)
+    answers = connection.get_answers_for_question_user_id(user_id)
+    comments = connection.get_comments_for_question_user_id(user_id)
+    users_data = connection.users_data()
+    return render_template("user_id.html", users=users_data, questions=questions, answers=answers, comments=comments)
+
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
