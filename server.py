@@ -233,7 +233,7 @@ def question_list_by_phrase():
     return render_template('list.html', questions=questions)
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/registration', methods=['GET', 'POST'])
 def register():
     if 'user_id' in session:
         return redirect(url_for("display_questions_list"))
@@ -274,6 +274,12 @@ def logout():
         session.pop('user_id', None)
         session.pop('username', None)
     return redirect(url_for('display_questions_list'))
+
+
+@app.route("/users")
+def users():
+    users_data = connection.users_data()
+    return render_template("users.html", users=users_data)
 
 
 if __name__ == "__main__":
