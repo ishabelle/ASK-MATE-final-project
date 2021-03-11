@@ -416,3 +416,38 @@ def users_data(cursor: RealDictCursor):
             """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+@common.connection_handler
+def get_questions_by_user_id(cursor: RealDictCursor, user_id: int):
+    query = """
+            SELECT id, submission_time, view_number, vote_number, title, message, image
+            FROM question
+            WHERE id = %(user_id)s
+    """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+
+@common.connection_handler
+def get_answers_for_question_user_id(cursor: RealDictCursor, user_id: int):
+    query = """ SELECT answer.*, question.id, question.title
+            FROM answer
+            LEFT JOIN question
+            ON answer.question_id = question.id
+            WHERE answer.user_id = %(user_id)s"""
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
+
+
+@common.connection_handler
+def get_comments_for_question_user_id(cursor: RealDictCursor, user_id: int):
+    query = """
+                SELECT comment.*, question.id, question.title
+                FROM comment
+                LEFT JOIN question
+                ON comment.question_id = question.id
+                WHERE comment.user_id = %(user_id)s AND comment.answer_id IS NULL 
+        """
+    cursor.execute(query, {'user_id': user_id})
+    return cursor.fetchall()
