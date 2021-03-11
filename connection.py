@@ -452,3 +452,33 @@ def get_comments_for_question_user_id(cursor: RealDictCursor, user_id: int):
         """
     cursor.execute(query, {'user_id': user_id})
     return cursor.fetchall()
+
+
+@common.connection_handler
+def update_question_count(cursor: RealDictCursor, user_id: int):
+    query = """
+        UPDATE users
+        SET count_questions = count_questions + 1
+        WHERE id = %(user_id)s
+        """
+    return cursor.execute(query, {'user_id': user_id})
+
+
+@common.connection_handler
+def update_answer_count(cursor: RealDictCursor, user_id: int):
+    query = """
+        UPDATE users
+        SET count_answers = count_answers + 1
+        WHERE id = %(user_id)s
+        """
+    return cursor.execute(query, {'user_id': user_id})
+
+
+@common.connection_handler
+def update_comment_count(cursor: RealDictCursor, user_id: int):
+    query = """
+        UPDATE users
+        SET count_comments = count_comments + 1
+        WHERE id = %(user_id)s
+        """
+    return cursor.execute(query, {'user_id': user_id})

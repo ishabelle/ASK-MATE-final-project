@@ -40,7 +40,7 @@ def display_questions_list():
 def display_single_question(question_id):
     single_question = connection.get_question_by_id(question_id)
     headers = ["ID", "USER ID", "SUBMISSION TIME", "VIEW NUMBER", "VOTE NUMBER", "TITLE", "MESSAGE", "IMAGE"]
-    answer_headers = ["ID","USER ID", "SUBMISSION TIME", "VOTE NUMBER", "QUESTION ID", "MESSAGE", "IMAGE"]
+    answer_headers = ["ID", "USER ID", "SUBMISSION TIME", "VOTE NUMBER", "QUESTION ID", "MESSAGE", "IMAGE"]
     answers_to_single_question = connection.get_answers_by_question_id(question_id)
     comment_to_question = connection.get_comment_for_question(question_id)
     comment_to_answer = connection.get_comment_for_answer(question_id)
@@ -64,6 +64,8 @@ def add_new_question():
                     'vote_number': 0, 'title': request.form.get('title'),
                     'message': request.form.get('message'), 'image': None}
         connection.insert_question_to_database(question)
+        user_id = session['user_id']
+        connection.update_question_count(user_id)
         return redirect(url_for('display_questions_list'))
 
 

@@ -80,7 +80,7 @@
             <td>QUESTION TITLE</td>
             <td>MESSAGE</td>
             <td>SUBMISSION TIME</td>
-            <td>EDITED COUNT</td>
+
         </tr>
         </thead>
         {% for comment in comments %}
@@ -88,11 +88,11 @@
                 <td><a href="/question/{{ comment.question_id }}"><strong>{{ comment.title }}</strong></a></td>
                 <td>{{ comment.message }}</td>
                 <td>{{ comment.submission_time }}</td>
-                <td>{{ comment.edited_count }}</td>
+
             </tr>
         {% endfor %}
     </table>
     <br>
     <br>
-    <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
+    <p><a href="/users" style="color: black">GO BACK TO USERS PAGE</a></p>
 {% endblock %}
