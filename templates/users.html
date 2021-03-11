@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+    <table class="darkTable">
+        <thead>
+        <tr>
+            <td>USERNAME</td>
+            <td>REGISTRATION<br>DATE</td>
+            <td>COUNT OF<br>ASKED QUESTIONS</td>
+            <td>COUNT OF<br> ANSWERS</td>
+            <td>COUNT OF<br> COMMENTS</td>
+            <td>REPUTATION</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="/users/{{ session.user_id }}">{{ user.username }}</a></td>
+                <td>{{ user.submission_time }}</td>
+                <td>{{ user.count_questions }}</td>
+                <td>{{ user.count_answers }}</td>
+                <td>{{ user.count_comments }}</td>
+                <td>{{ user.reputation }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
+{% endblock %}
