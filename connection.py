@@ -1,3 +1,5 @@
+from functools import reduce
+
 import common
 from psycopg2.extras import RealDictCursor
 import datetime
@@ -82,7 +84,7 @@ def insert_question_to_database(cursor: RealDictCursor, question: dict):
         'title': question['title'],
         'vote_number': question['vote_number'],
         'view_number': question['view_number'],
-        })
+    })
     return "QUESTION ADDED"
 
 
@@ -355,3 +357,26 @@ def get_question_by_phrase(cursor, phrase):
                             """,
                    {'phrase': '%' + phrase + '%'})
     return cursor.fetchall()
+
+
+@common.connection_handler
+def check_user(cursor):
+    query = """
+    SELECT email FROM users
+    """
+    cursor.execute(query)
+    all_data = cursor.fetchall()
+    data = [(reduce(lambda red: red, user)) for user in all_data]
+    return data
+
+
+@common.connection_handler
+def add_user_to_database(cursor, email, password):
+    query = """
+    INSERT INTO users(email, password)
+    VALUES (%s, %s)
+    """
+    cursor.execute(query, {
+        'email': email,
+        'password': password})
+    return "NEW USER ADDED"

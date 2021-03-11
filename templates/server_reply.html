@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <body>
+    {% if no_user %}
+        <p>THIS LOGIN ALREADY EXISTS IN DATA BASE. PLEASE CHOOSE ANOTHER ONE.</p>
+    {% endif %}
+    </body>
+{% endblock %}
