@@ -15,6 +15,7 @@ ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS pk_ques
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_question_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.tag DROP CONSTRAINT IF EXISTS pk_tag_id CASCADE;
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_tag_id CASCADE;
+ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS pk_id CASCADE;
 
 DROP TABLE IF EXISTS public.question;
 CREATE TABLE question (
@@ -58,6 +59,18 @@ DROP TABLE IF EXISTS public.tag;
 CREATE TABLE tag (
     id serial NOT NULL,
     name text
+);
+
+DROP TABLE IF EXISTS public.users CASCADE ;
+CREATE TABLE users (
+    id SERIAL NOT NULL,
+    username varchar(30) NOT NULL,
+    password varchar(500) NOT NULL,
+    submission_time timestamp without time zone,
+    count_questions int,
+    count_answers int,
+    count_comments int,
+    reputation int
 );
 
 
