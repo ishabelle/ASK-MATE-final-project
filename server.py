@@ -1,8 +1,8 @@
 import os
 from datetime import timedelta, datetime
 
-import bcrypt
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+
+from flask import Flask, render_template, request, redirect, url_for, session
 import util
 import connection
 
@@ -226,12 +226,10 @@ def delete_tag(question_id: int):
 @app.route('/search')
 def question_list_by_phrase():
     phrase = request.args.get('phrase')
-
     if phrase:
         questions = connection.get_question_by_phrase(phrase)
     else:
         return redirect(url_for('index'))
-
     return render_template('list.html', questions=questions)
 
 
@@ -244,7 +242,7 @@ def register():
         password = request.form.get('password')
         submission_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if connection.register_user(username, password, submission_time) is False:
-            flash('Not registered')
+            print('Not registered')
         connection.register_user(username, password, submission_time)
         return redirect(url_for('login'))
     return render_template('register.html')
@@ -266,6 +264,16 @@ def login():
         else:
             print('User or Password do not match')
     return render_template('login.html')
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    if 'user_id' not in session:
+        print('You are not logged in!')
+    else:
+        session.pop('user_id', None)
+        session.pop('username', None)
+    return redirect(url_for('display_questions_list'))
 
 
 if __name__ == "__main__":
