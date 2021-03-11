@@ -94,10 +94,11 @@ def insert_question_to_database(cursor: RealDictCursor, question: dict):
 @common.connection_handler
 def insert_answer_to_database(cursor: RealDictCursor, answer: dict):
     query = """
-               INSERT INTO answer (submission_time, vote_number, question_id, message, image)
-               VALUES (%(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s)
+               INSERT INTO answer (user_id, submission_time, vote_number, question_id, message, image)
+               VALUES (%(user_id)s, %(submission_time)s, %(vote_number)s, %(question_id)s, %(message)s, %(image)s)
                """
     cursor.execute(query, {
+        'user_id': answer['user_id'],
         'submission_time': answer['submission_time'],
         'vote_number': answer['vote_number'],
         'question_id': answer['question_id'],
@@ -228,10 +229,11 @@ def get_comment_for_question(cursor: RealDictCursor, question_id):
 @common.connection_handler
 def insert_comment_question_to_database(cursor: RealDictCursor, comment_to_question: dict):
     query = """
-    INSERT INTO comment(question_id, answer_id, message, submission_time, edited_count)
-    VALUES (%(question_id)s, %(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s)
+    INSERT INTO comment(user_id, question_id, answer_id, message, submission_time, edited_count)
+    VALUES (%(user_id)s, %(question_id)s, %(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s)
     """
     cursor.execute(query, {
+        'user_id': comment_to_question['user_id'],
         'question_id': comment_to_question['question_id'],
         'answer_id': comment_to_question['answer_id'],
         'message': comment_to_question['message'],
@@ -265,10 +267,11 @@ def get_comment_by_id(cursor: RealDictCursor, comment_id: int):
 @common.connection_handler
 def insert_comment_answer_to_database(cursor: RealDictCursor, new_comment: dict):
     query = """
-    INSERT INTO comment(question_id, answer_id, message, submission_time, edited_count)
-    VALUES (%(question_id)s, %(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s)
+    INSERT INTO comment(user_id, question_id, answer_id, message, submission_time, edited_count)
+    VALUES (%(user_id)s, %(question_id)s, %(answer_id)s, %(message)s, %(submission_time)s, %(edited_count)s)
     """
     cursor.execute(query, {
+        'user_id': new_comment['user_id'],
         'question_id': new_comment['question_id'],
         'answer_id': new_comment['answer_id'],
         'message': new_comment['message'],
@@ -424,7 +427,7 @@ def get_questions_by_user_id(cursor: RealDictCursor, user_id: int):
     query = """
             SELECT id, submission_time, view_number, vote_number, title, message, image
             FROM question
-            WHERE id = %(user_id)s
+            WHERE user_id = %(user_id)s
     """
     cursor.execute(query, {'user_id': user_id})
     return cursor.fetchall()
