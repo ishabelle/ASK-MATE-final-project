@@ -391,3 +391,18 @@ def register_user(cursor: RealDictCursor, username: str, seen_password: str, sub
 def encrypt_password(password):
     hashed_pass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     return hashed_pass.decode('utf-8')
+
+
+@common.connection_handler
+def check_user(cursor: RealDictCursor, username: str):
+    query = """
+        SELECT id, password
+        FROM users
+        WHERE username ILIKE %(username)s;
+    """
+    cursor.execute(query, {'username': username})
+    return cursor.fetchone()
+
+
+def verify_password(text_password, hashed_pass):
+    return bcrypt.checkpw(text_password.encode('utf-8'), hashed_pass.encode('utf-8'))
