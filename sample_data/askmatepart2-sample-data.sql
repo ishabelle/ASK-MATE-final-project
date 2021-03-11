@@ -20,6 +20,7 @@ ALTER TABLE IF EXISTS ONLY public.users DROP CONSTRAINT IF EXISTS pk_id CASCADE;
 DROP TABLE IF EXISTS public.question;
 CREATE TABLE question (
     id serial NOT NULL,
+    user_id int,
     submission_time timestamp without time zone,
     view_number integer,
     vote_number integer,
@@ -31,6 +32,7 @@ CREATE TABLE question (
 DROP TABLE IF EXISTS public.answer;
 CREATE TABLE answer (
     id serial NOT NULL,
+    user_id int,
     submission_time timestamp without time zone,
     vote_number integer,
     question_id integer,
@@ -41,6 +43,7 @@ CREATE TABLE answer (
 DROP TABLE IF EXISTS public.comment;
 CREATE TABLE comment (
     id serial NOT NULL,
+    user_id int,
     question_id integer,
     answer_id integer,
     message text,
