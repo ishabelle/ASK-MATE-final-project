@@ -406,3 +406,13 @@ def check_user(cursor: RealDictCursor, username: str):
 
 def verify_password(text_password, hashed_pass):
     return bcrypt.checkpw(text_password.encode('utf-8'), hashed_pass.encode('utf-8'))
+
+
+@common.connection_handler
+def users_data(cursor: RealDictCursor):
+    query = """
+        SELECT *
+        FROM users
+            """
+    cursor.execute(query)
+    return cursor.fetchall()
