@@ -5,20 +5,20 @@
     <h1 class="main-title">Don't even ask, mate!</h1>
     <div>
         {% if 'user_id' in session %}
-            <h4>WELCOME  {{ session['username'] }} !</h4>
-            <a href="logout"  style="color: black">LOG OUT</a>
+            <h4>WELCOME {{ session['username'] }} !</h4>
+            <a href="logout" style="color: black">LOG OUT</a>
             <br>
             <br>
-            <a href="add_new_question"  style="color: black" methods="post">ADD QUESTION</a>
+            <a href="add_new_question" style="color: black" methods="post">ADD QUESTION</a>
             <br>
             <br>
-            <a href="users"  style="color: black">USERS</a>
+            <a href="users" style="color: black">USERS</a>
         {% else %}
-             <h4>WELCOME, MATE!</h4>
-            <a href="registration"  style="color: black">REGISTER</a>
+            <h4>WELCOME, MATE!</h4>
+            <a href="registration" style="color: black">REGISTER</a>
             <br>
             <br>
-            <a href="login"  style="color: black">LOGIN</a>
+            <a href="login" style="color: black">LOGIN</a>
         {% endif %}
     </div>
     <br>
@@ -52,6 +52,7 @@
         </form>
     {% endif %}
     <br>
+    <a href="{{ url_for('show_tags',tags=tags) }}" style="color: black">SHOW ALL TAGS</a>
     <table class="darkTable">
         <thead>
         <tr>
