@@ -485,3 +485,15 @@ def update_comment_count(cursor: RealDictCursor, user_id: int):
         WHERE id = %(user_id)s
         """
     return cursor.execute(query, {'user_id': user_id})
+
+
+@common.connection_handler
+def show_all_tags(cursor: RealDictCursor):
+    query = """
+               SELECT tag.name, count(question_tag.question_id) as question_number
+               FROM question_tag JOIN tag
+               ON question_tag.tag_id=tag.id
+               GROUP BY tag.name
+               """
+    cursor.execute(query)
+    return cursor.fetchall()
