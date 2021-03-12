@@ -6,19 +6,19 @@
     <div>
         {% if 'user_id' in session %}
             <h4>WELCOME  {{ session['username'] }} !</h4>
-            <a href="logout">LOG OUT</a>
+            <a href="logout"  style="color: black">LOG OUT</a>
             <br>
             <br>
-            <a href="add_new_question" methods="post">ADD QUESTION</a>
+            <a href="add_new_question"  style="color: black" methods="post">ADD QUESTION</a>
             <br>
             <br>
-            <a href="users">USERS</a>
+            <a href="users"  style="color: black">USERS</a>
         {% else %}
              <h4>WELCOME, MATE!</h4>
-            <a href="registration">REGISTER</a>
+            <a href="registration"  style="color: black">REGISTER</a>
             <br>
             <br>
-            <a href="login">LOGIN</a>
+            <a href="login"  style="color: black">LOGIN</a>
         {% endif %}
     </div>
     <br>
