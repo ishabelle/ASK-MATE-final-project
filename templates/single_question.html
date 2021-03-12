@@ -25,6 +25,7 @@
         <p><a href="{{ url_for("update_question", question_id=question_id) }}" class="myButton">EDIT</a></p>
         <a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='up') }}" class="myButton">VOTE
             UP</a>
+{#        <button type="button" class="vote"><a href="/question/{{ data.id }}/vote_up"><i class="fa fa-thumbs-o-up"></i></a></button>#}
         <a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='down') }}" class="myButton">VOTE
             DOWN</a>
     {% endif %}

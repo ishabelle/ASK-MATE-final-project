@@ -162,23 +162,39 @@ def delete_comment(comment_id):
     return redirect(url_for('display_single_question', comment_id=comment_id, question_id=question_id))
 
 
-@app.route('/question/<int:question_id>/vote')
+@app.route('/question/<int:question_id>/vote_down')
 def vote_for_question(question_id):
-    vote_type = request.args.get('vote_type')
-    vote_number = connection.get_vote_number_question(question_id)
-    vote_up_or_down = util.vote_up_or_down(vote_number, vote_type)
-    connection.update_vote_number_question(vote_up_or_down, question_id)
-    return redirect(url_for('display_single_question', question_id=question_id))
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    else:
+        vote_type = request.args.get('vote_type')
+        user_id = session['user_id']
+        vote_number = connection.get_vote_number_question(question_id)
+        vote_up_or_down = util.vote_up_or_down(vote_number, vote_type)
+        connection.update_vote_number_question(vote_up_or_down, question_id)
+        if vote_type == 'down':
+            connection.lose_reputation(user_id)
+        else:
+            connection.gain_reputation(user_id, 5)
+        return redirect(url_for('display_single_question', question_id=question_id))
 
 
 @app.route('/answer/<answer_id>/vote', methods=["GET"])
 def vote_for_answer(answer_id):
-    question_id = request.args.get('question_id')
-    vote_type = request.args.get('vote_type')
-    vote_number = connection.get_vote_number_answer(answer_id)
-    vote_up_or_down = util.vote_up_or_down(vote_number, vote_type)
-    connection.update_vote_number_answer(vote_up_or_down, answer_id)
-    return redirect(url_for('display_single_question', question_id=question_id))
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    else:
+        question_id = request.args.get('question_id')
+        user_id = session['user_id']
+        vote_type = request.args.get('vote_type')
+        vote_number = connection.get_vote_number_answer(answer_id)
+        vote_up_or_down = util.vote_up_or_down(vote_number, vote_type)
+        connection.update_vote_number_answer(vote_up_or_down, answer_id)
+        if vote_type == 'down':
+            connection.lose_reputation(user_id)
+        else:
+            connection.gain_reputation(user_id, 10)
+        return redirect(url_for('display_single_question', question_id=question_id))
 
 
 @app.route('/question/<question_id>/new-comment', methods=["GET", "POST"])
@@ -321,6 +337,7 @@ def user_page(user_id):
         return redirect(url_for('login'))
     questions = connection.get_questions_by_user_id(user_id)
     answers = connection.get_answers_for_question_user_id(user_id)
+    comments = connection.get_comments_for_question_user_id(user_id)
     return render_template("user_id.html", questions=questions, answers=answers, comments=comments)
 
 

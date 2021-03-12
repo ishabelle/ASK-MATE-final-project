@@ -510,3 +510,25 @@ def show_all_tags(cursor: RealDictCursor):
 #         'validation': validation,
 #         'id': id})
 #     return "VALIDATED"
+
+
+@common.connection_handler
+def lose_reputation(cursor: RealDictCursor, user_id: int):
+    query = """
+            UPDATE users
+            SET reputation = reputation - 2
+            WHERE id = %(user_id)s
+            """
+    return cursor.execute(query, {'user_id': user_id})
+
+
+@common.connection_handler
+def gain_reputation(cursor: RealDictCursor, user_id: int, points: int):
+    query = """
+        UPDATE users
+        SET reputation = reputation + %(points)s
+        WHERE id = %(user_id)s
+        """
+    return cursor.execute(query, {
+        'user_id': user_id,
+        'points': points})
