@@ -139,7 +139,15 @@ ALTER TABLE question
 ALTER TABLE comment
     ADD FOREIGN KEY (user_id) REFERENCES users (id);
 
-
+INSERT INTO users
+VALUES (0, 'ala.ma.kota@gmail.com', '$2b$12$BrKHm1OtgiXYdGQvIprLSeWNWLEnDmokwN4ggHCPxg6V1gpItdcYu',
+        '2017-04-28 16:49:00', 2, 0, 0, 0);
+INSERT INTO users
+VALUES (1, 'jan@kowalski.com', '$2b$12$QuLtBO.JqwjlVNhaMOyQ.e2/rFLLkWQ7yoKtX2PPFwPD4ICpOtXpy', '2019-04-28 16:53:00', 1,
+        2, 0, 0);
+INSERT INTO users
+VALUES (2, 'kowalski@jan.pl', '$2b$12$BrKHm1OtgiXYdGQvIprLSeWNWLEnDmokwN4ggHCPxg6V1gpItdcYu', '2015-05-18 11:21:00', 0,
+        2, 0, 0);
 
 INSERT INTO question
 VALUES (0, 0, '2017-04-28 08:29:00', 29, 7, 'How to make lists in Python?', 'I am totally new to this, any hints?',
@@ -183,12 +191,4 @@ VALUES (1, 3);
 INSERT INTO question_tag
 VALUES (2, 3);
 
-INSERT INTO users
-VALUES (0, 'ala.ma.kota@gmail.com', '$2b$12$BrKHm1OtgiXYdGQvIprLSeWNWLEnDmokwN4ggHCPxg6V1gpItdcYu',
-        '2017-04-28 16:49:00', 2, 0, 0, 0);
-INSERT INTO users
-VALUES (1, 'jan@kowalski.com', '$2b$12$QuLtBO.JqwjlVNhaMOyQ.e2/rFLLkWQ7yoKtX2PPFwPD4ICpOtXpy', '2019-04-28 16:53:00', 1,
-        2, 0, 0);
-INSERT INTO users
-VALUES (2, 'kowalski@jan.pl', '$2b$12$BrKHm1OtgiXYdGQvIprLSeWNWLEnDmokwN4ggHCPxg6V1gpItdcYu', '2015-05-18 11:21:00', 0,
-        2, 0, 0);
+
