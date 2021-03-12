@@ -136,7 +136,31 @@
                     <td>
                         <a href="{{ url_for('vote_for_answer', answer_id=answer["id"], question_id=answer["question_id"], vote_type='down') }}">VOTE
                             DOWN</a></td>
+
+
+                    {% if answer.validation == False %}
+                        <td>
+                            <button type="button" class="border_btn"><a
+                                    href="/answer/{{ answer.id }}/True">Validate</a>
+                            </button>
+                        </td>
+
+                        </td>
+                    {% else %}
+                        <td>
+                            <button type="button" class="border_btn"><a
+                                    href="/answer/{{ answer.id }}/False">Invalidate</a>
+                            </button>
+
+                        </td>
+                    {% endif %}
+
                 {% endif %}
+                {% if answer.valid %}
+                    <td><h1>&#10004;</h1></td>
+                {% endif %}
+
+
             </tr>
         {% endfor %}
         </tbody>

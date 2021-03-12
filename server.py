@@ -78,7 +78,7 @@ def add_new_answer(question_id):
     if request.method == 'POST':
         answer = {'user_id': session['user_id'], 'submission_time': connection.get_submission_time(), 'vote_number': 0,
                   'question_id': question_id, 'message': request.form.get('message'),
-                  'image': request.form.get('image')}
+                  'image': request.form.get('image'), 'valid': False}
         connection.insert_answer_to_database(answer)
         user_id = session['user_id']
         connection.update_answer_count(user_id)
@@ -328,6 +328,24 @@ def user_page(user_id):
 def show_tags():
     tags = connection.show_all_tags()
     return render_template("tags.html", tags=tags)
+
+
+# @app.route("/answer/<answer_id>/False")
+# def valid_answer_False(answer_id):
+#     validation = False
+#     answers = connection.get_answer_by_id(answer_id)
+#     question_id = answers.get('question_id', '')
+#     connection.valid_answer(validation, answer_id)
+#     return redirect(url_for('display_single_question', question_id=question_id))
+#
+#
+# @app.route("/answer/<answer_id>/True")
+# def valid_answer_True(answer_id):
+#     validation = True
+#     answers = connection.get_answer_by_id(answer_id)
+#     question_id = answers.get('question_id', '')
+#     connection.valid_answer(validation, answer_id)
+#     return redirect(url_for('display_single_question', question_id=question_id))
 
 
 if __name__ == "__main__":

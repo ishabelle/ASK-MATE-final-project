@@ -497,3 +497,16 @@ def show_all_tags(cursor: RealDictCursor):
                """
     cursor.execute(query)
     return cursor.fetchall()
+
+
+# @common.connection_handler
+# def valid_answer(cursor: RealDictCursor, validation: bool, id: int):
+#     query = """
+#                UPDATE answer
+#                SET validation = %(validation)s
+#                WHERE id = %(id)s
+#                """
+#     cursor.execute(query, {
+#         'validation': validation,
+#         'id': id})
+#     return "VALIDATED"
