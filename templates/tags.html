@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
+    <table class="table">
+    <thead>
+    <tr>
+        <td scope="col"><h3>Tag</h3></td>
+        <td scope="col"><h3>Number of questions with this tag</h3></td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tag in tags %}
+        <tr>
+            <td scope="row"><b>{{ tag['name'] }} </b></td>
+            <td>{{ tag['question_number'] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+{% endblock %}
