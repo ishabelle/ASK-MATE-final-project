@@ -290,7 +290,7 @@ def login():
         user = connection.check_user(username)
         if user and connection.verify_password(typed_password, user['password']):
             session['user_id'] = user['id']
-            # session['username'] = username
+            session['username'] = username
             print('User logged in!')
             return redirect('/')
         else:
@@ -321,9 +321,7 @@ def user_page(user_id):
         return redirect(url_for('login'))
     questions = connection.get_questions_by_user_id(user_id)
     answers = connection.get_answers_for_question_user_id(user_id)
-    comments = connection.get_comments_for_question_user_id(user_id)
-    users_data = connection.users_data()
-    return render_template("user_id.html", users=users_data, questions=questions, answers=answers, comments=comments)
+    return render_template("user_id.html", questions=questions, answers=answers, comments=comments)
 
 
 @app.route('/tags')
