@@ -1,31 +1,6 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <table>
-        <thead>
-        <tr>
-            <td>USERNAME</td>
-            <td>REGISTRATION<br>DATE</td>
-            <td>COUNT OF<br>ASKED QUESTIONS</td>
-            <td>COUNT OF<br> ANSWERS</td>
-            <td>COUNT OF<br> COMMENTS</td>
-            <td>REPUTATION</td>
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td>{{ user.username }}</td>
-                <td>{{ user.submission_time }}</td>
-                <td>{{ user.count_questions }}</td>
-                <td>{{ user.count_answers }}</td>
-                <td>{{ user.count_comments }}</td>
-                <td>{{ user.reputation }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
     <h2>Question asked</h2>
     <table>
         <thead>
