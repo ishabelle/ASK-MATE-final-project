@@ -38,6 +38,8 @@ def display_questions_list():
 @app.route('/question/<question_id>')
 def display_single_question(question_id):
     single_question = connection.get_question_by_id(question_id)
+    view_number = single_question.get('view_number', '') + 1
+    connection.update_view_number_question(view_number, question_id)
     headers = ["ID", "USER ID", "SUBMISSION TIME", "VIEW NUMBER", "VOTE NUMBER", "TITLE", "MESSAGE", "IMAGE"]
     answer_headers = ["ID", "USER ID", "SUBMISSION TIME", "VOTE NUMBER", "QUESTION ID", "MESSAGE", "IMAGE"]
     answers_to_single_question = connection.get_answers_by_question_id(question_id)

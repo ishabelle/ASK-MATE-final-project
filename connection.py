@@ -532,3 +532,21 @@ def gain_reputation(cursor: RealDictCursor, user_id: int, points: int):
     return cursor.execute(query, {
         'user_id': user_id,
         'points': points})
+
+@common.connection_handler
+def update_view_number_question(cursor: RealDictCursor, view_number: str, id: int):
+    query = """
+                UPDATE question
+                SET view_number = %(view_number)s
+                WHERE id = %(id)s
+                """
+    cursor.execute(query, {
+        'view_number': view_number,
+        'id': id})
+    updated_query = """
+                SELECT *
+                FROM question
+                WHERE id = %(id)s
+                """
+    cursor.execute(updated_query, {'id': id})
+    return cursor.fetchall()
