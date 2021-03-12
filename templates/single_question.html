@@ -50,6 +50,8 @@
         {{ tag['name'] }}<br>
     {% endfor %}</h4>
     <br>
+    <a href="{{ url_for('show_tags',tags=tags) }}" style="color: black">SHOW ALL TAGS</a>
+    <br>
     {% if 'user_id' in session %}
         <form action="{{ url_for('delete_tag', question_id=question_id, tag_id=tag_id) }}" method="POST">
             <label>Select tag for delete:</label>
