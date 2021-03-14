@@ -1,6 +1,7 @@
 from functools import reduce
 
 import bcrypt
+from flask import session
 
 import common
 from psycopg2.extras import RealDictCursor
@@ -508,19 +509,6 @@ def show_all_tags(cursor: RealDictCursor):
     return cursor.fetchall()
 
 
-# @common.connection_handler
-# def valid_answer(cursor: RealDictCursor, validation: bool, id: int):
-#     query = """
-#                UPDATE answer
-#                SET validation = %(validation)s
-#                WHERE id = %(id)s
-#                """
-#     cursor.execute(query, {
-#         'validation': validation,
-#         'id': id})
-#     return "VALIDATED"
-
-
 @common.connection_handler
 def lose_reputation(cursor: RealDictCursor, user_id: int):
     query = """
@@ -559,4 +547,40 @@ def update_view_number_question(cursor: RealDictCursor, view_number: str, id: in
                 WHERE id = %(id)s
                 """
     cursor.execute(updated_query, {'id': id})
-    return cursor.fetchall()
+    return cursor.fetchone()
+
+
+@common.connection_handler
+def mark_answer_as_accepted(cursor: RealDictCursor, answer_id: int):
+    query = """
+        UPDATE answer
+        SET validation = TRUE
+        WHERE id = %(answer_id)s
+    """
+    cursor.execute(query, {'answer_id': answer_id})
+
+    # do not allow user to mark herself/himself
+    query = """
+        SELECT user_id
+        FROM answer
+        WHERE id = %(answer_id)s
+    """
+    cursor.execute(query, {'answer_id': answer_id})
+    answers_details = cursor.fetchone()
+    if answers_details['user_id'] != session['user_id']:
+        query = """
+        UPDATE users
+        SET reputation = reputation + 15
+        WHERE id = %(answers_details)s
+        """
+        cursor.execute(query, {'answers_details': answers_details['user_id']})
+
+
+@common.connection_handler
+def unmark_accepted_answer(cursor: RealDictCursor, answer_id: int):
+    query = """
+    UPDATE answer
+    SET validation = FALSE
+    WHERE id = %(answer_id)s
+    """
+    cursor.execute(query, {'answer_id': answer_id})
