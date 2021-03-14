@@ -4,7 +4,7 @@
 
     <h1 class="main-title">Don't even ask, mate!</h1>
     <div>
-        {% if 'user_id' in session %}
+        {% if 'username' in session %}
             <h4>WELCOME {{ session['username'] }} !</h4>
             <a href="logout" style="color: black">LOG OUT</a>
             <br>
