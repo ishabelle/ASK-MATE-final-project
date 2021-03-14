@@ -8,10 +8,11 @@
         <textarea name="message" rows="4" cols="50"></textarea>
         <br>
         <br>
-        <input type="file" name="file" value="CHOSE FILE" accept="image/png, image/jpeg">
-        <br>
+        <label for="image">Add your image url:</label>
+        <input type="url" id="image" name="image" placeholder="url"><br>
         <input type="submit" value="ADD" class="myButton">
     </form>
     <br>
-    <a href="{{ url_for("display_single_question", question_id=question_id) }}" style="color: black">GO BACK TO THE QUESTION PAGE </a>
+    <a href="{{ url_for("display_single_question", question_id=question_id) }}" style="color: black">GO BACK TO THE
+        QUESTION PAGE </a>
 {% endblock %}
