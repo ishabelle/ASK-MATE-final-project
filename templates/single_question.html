@@ -116,6 +116,12 @@
         <tbody>
         {% for answer in answers_to_single_question %}
             <tr>
+                {% if answer['validation'] == True %}
+                    <td><strong>&#9745;</strong></td>
+                {% else %}
+                    <td><strong>&#9746;</strong></td>
+                {% endif %}
+
                 <td> {{ answer["id"] }}</td>
                 <td>{{ answer["user_id"] }}</td>
                 <td> {{ answer["submission_time"] }}</td>
@@ -123,6 +129,7 @@
                 <td> {{ answer["question_id"] }}</td>
                 <td> {{ answer["message"] }}</td>
                 <td> {{ answer["image"] }}</td>
+
                 {% if 'username' in session %}
                     <td>
                         <a href="{{ url_for("add_comment_to_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">COMMENT
@@ -140,17 +147,20 @@
                         <a href="{{ url_for('vote_for_answer', answer_id=answer["id"], question_id=answer["question_id"], vote_type='down') }}">VOTE
                             DOWN</a></td>
                     <td>
-                        {% if answer['validation'] == True %}
-                            <form action="{{ url_for('unaccepted_answer', question_id=answer["question_id"], answer_id=answer['id']) }}"
-                                  method="post">
-                                <button type="submit">UNACCEPTED ANSWER</button>
-                            </form>
-                        {% else %}
-                            <form action="{{ url_for('accepted_answer', question_id=answer["question_id"], answer_id=answer['id']) }}"
-                                  method="post">
-                                <button type="submit">ACCEPTED ANSWER</button>
-                            </form>
+                        {% if session['user_id'] == single_question['user_id'] %}
+                            {% if answer['validation'] == True %}
+                                <form action="{{ url_for('unaccepted_answer', question_id=answer["question_id"], answer_id=answer['id']) }}"
+                                      method="post">
+                                    <button type="submit">UNACCEPTED ANSWER</button>
+                                </form>
+                            {% else %}
+                                <form action="{{ url_for('accepted_answer', question_id=answer["question_id"], answer_id=answer['id']) }}"
+                                      method="post">
+                                    <button type="submit">ACCEPTED ANSWER</button>
+                                </form>
+                            {% endif %}
                         {% endif %}
+
                     </td>
                 {% endif %}
             </tr>
