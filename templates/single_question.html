@@ -6,16 +6,27 @@
     <table class="darkTable">
         <thead>
         <tr>
-            {% for header in headers %}
-                <th scope="col">{{ header }}</th>
-            {% endfor %}
+            <th>ID</th>
+            <th>USER ID</th>
+            <th>SUBMISSION TIME</th>
+            <th>VIEW NUMBER</th>
+            <th>VOTE NUMBER</th>
+            <th>TITLE</th>
+            <th>MESSAGE</th>
+            <th>IMAGE</th>
+
         </tr>
         </thead>
         <tbody>
         <tr>
-            {% for data in single_question %}
-                <td>{{ single_question[data] }}</td>
-            {% endfor %}
+            <td>{{ single_question['id'] }}</td>
+            <td>{{ single_question['user_id'] }}</td>
+            <td>{{ single_question['submission_time'] }}</td>
+            <td>{{ single_question['view_number'] }}</td>
+            <td>{{ single_question['vote_number'] }}</td>
+            <td>{{ single_question['title'] }}</td>
+            <td>{{ single_question['message'] }}</td>
+            <td><img src="{{ single_question['image'] }}" height="150" alt="image from url"></td>
         </tr>
         </tbody>
     </table>
@@ -128,7 +139,8 @@
                 <td> {{ answer["vote_number"] }}</td>
                 <td> {{ answer["question_id"] }}</td>
                 <td> {{ answer["message"] }}</td>
-                <td> {{ answer["image"] }}</td>
+                <td><img src="{{ answer['image'] }}" height="150" alt="image from url"></td>
+
 
                 {% if 'username' in session %}
                     <td>
