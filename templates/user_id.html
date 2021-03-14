@@ -1,7 +1,8 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h2> {{ user['username'] }}'S PROFILE:</h2>
+    <h1> {{ user['username'] }}'S PROFILE:</h1>
+
     <br>
     <p><strong>USER ID:</strong> {{ user['id'] }}</p>
     <p><strong>USER NAME:</strong> {{ user['username'] }}</p>
@@ -11,6 +12,73 @@
     <p><strong>NUMBER OF COMMENTS:</strong> {{ user['count_answers'] }}</p>
     <p><strong>REPUTATION:</strong> {{ user['reputation'] }}</p>
     <br>
-    <br>
     <p><a href="/users" style="color: black">GO BACK TO USERS PAGE</a></p>
+    <br>
+    <br>
+
+    <h2>ASKED QUESTIONS</h2>
+    <table>
+        <thead>
+        <tr>
+            <td><strong>TITLE</strong></td>
+            <td><strong>MESSAGE</strong></td>
+            <td><strong>SUBMISSION TIME</strong></td>
+            <td><strong>VIEW NUMBER</strong></td>
+            <td><strong>VOTE NUMBER</strong></td>
+            <td><strong>IMAGE</strong></td>
+        </tr>
+        </thead>
+        {% for question in questions %}
+            <tr>
+                <td><a href="/question/{{ question.id }}"><strong>{{ question.title }}</strong></a></td>
+                <td>{{ question.message }}</td>
+                <td>{{ question.submission_time }}</td>
+                <td>{{ question.view_number }}</td>
+                <td>{{ question.vote_number }}</td>
+                <td><img src="{{ question['image'] }}" height="150" alt="image from url"></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>POSTED ANSWERS</h2>
+    <table>
+        <thead>
+        <tr>
+            <td><strong>QUESTION TITLE</strong></td>
+            <td><strong>MESSAGE</strong></td>
+            <td><strong>SUBMISSION TIME</strong></td>
+            <td><strong>VOTE NUMBER</strong></td>
+            <td><strong>IMAGE</strong></td>
+        </tr>
+        </thead>
+        {% for answer in answers %}
+            <tr>
+                <td><a href="/question/{{ answer.question_id }}"><strong>{{ answer.title }}</strong></a></td>
+                <td>{{ answer.message }}</td>
+                <td>{{ answer.submission_time }}</td>
+                <td>{{ answer.vote_number }}</td>
+                <td><img src="{{ answer['image'] }}" height="150" alt="image from url"></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>POSTED COMMENTS</h2>
+    <table>
+        <thead>
+        <tr>
+            <td><strong>QUESTION TITLE</strong></td>
+            <td><strong>MESSAGE</strong></td>
+            <td><strong>SUBMISSION TIME</strong></td>
+            <td><strong>EDITED COUNT</strong></td>
+        </tr>
+        </thead>
+        {% for comment in comments %}
+            <tr>
+                <td><a href="/question/{{ comment.question_id }}"><strong>{{ comment.title }}</strong></a></td>
+                <td>{{ comment.message }}</td>
+                <td>{{ comment.submission_time }}</td>
+                <td>{{ comment.edited_count }}</td>
+            </tr>
+        {% endfor %}
+
 {% endblock %}
