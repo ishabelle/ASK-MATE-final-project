@@ -10,17 +10,21 @@
             <td>COUNT OF<br> ANSWERS</td>
             <td>COUNT OF<br> COMMENTS</td>
             <td>REPUTATION</td>
+            <td>SEE MORE</td>
         </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td><a href="/users/{{ session.user_id }}">{{ user.username }}</a></td>
+                <td>{{ user.username }}</td>
                 <td>{{ user.submission_time }}</td>
                 <td>{{ user.count_questions }}</td>
                 <td>{{ user.count_answers }}</td>
                 <td>{{ user.count_comments }}</td>
                 <td>{{ user.reputation }}</td>
+                <td><form action="{{ url_for('user_page', user_id = user.id) }}" method="get">
+                    <input type="submit" value="DETAILS" class="myButton">
+                </form></td>
             </tr>
         {% endfor %}
         </tbody>
