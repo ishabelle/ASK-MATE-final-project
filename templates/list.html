@@ -13,6 +13,11 @@
             <br>
             <br>
             <a href="users" style="color: black">USERS</a>
+            <br>
+            <br>
+            <form action="{{ url_for('user_page', user_id=session['user_id']) }}" method="GET">
+                <input type="submit" value="MY PROFILE" class="myButton">
+            </form>
         {% else %}
             <h4>WELCOME, MATE!</h4>
             <a href="registration" style="color: black">REGISTER</a>
