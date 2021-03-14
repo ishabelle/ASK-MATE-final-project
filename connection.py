@@ -78,8 +78,8 @@ def get_answers_by_question_id(cursor: RealDictCursor, id: int):
 @common.connection_handler
 def insert_question_to_database(cursor: RealDictCursor, question: dict):
     query = """
-            INSERT INTO question (user_id, submission_time, title, message, vote_number, view_number)
-            VALUES (%(user_id)s, %(submission_time)s, %(title)s, %(message)s, %(vote_number)s, %(view_number)s);
+            INSERT INTO question (user_id, submission_time, title, message, vote_number, view_number, image)
+            VALUES (%(user_id)s, %(submission_time)s, %(title)s, %(message)s, %(vote_number)s, %(view_number)s, %(image)s);
             """
     cursor.execute(query, {
         'user_id': question['user_id'],
@@ -88,6 +88,7 @@ def insert_question_to_database(cursor: RealDictCursor, question: dict):
         'title': question['title'],
         'vote_number': question['vote_number'],
         'view_number': question['view_number'],
+        'image': question['image'],
     })
     return "QUESTION ADDED"
 
