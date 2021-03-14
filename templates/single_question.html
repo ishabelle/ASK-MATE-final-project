@@ -94,7 +94,7 @@
         {% endfor %}
         </tbody>
     </table>
-    {% if 'user_id' in session %}
+    {% if 'username' in session %}
         <p><a href="{{ url_for('add_comment_to_question', question_id=question_id) }}" class="myButton">ADD NEW
             COMMENT</a>
         </p>
@@ -121,7 +121,7 @@
                 <td> {{ answer["question_id"] }}</td>
                 <td> {{ answer["message"] }}</td>
                 <td> {{ answer["image"] }}</td>
-                {% if 'user_id' in session %}
+                {% if 'username' in session %}
                     <td>
                         <a href="{{ url_for("add_comment_to_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">COMMENT
                             ANSWER</a></td>
@@ -167,7 +167,7 @@
         </tbody>
     </table>
     <br>
-    {% if 'user_id' in session %}
+    {% if 'username' in session %}
         <a href="{{ url_for('add_new_answer',question_id=question_id) }}" class="myButton">ADD NEW ANSWER</a>
     {% endif %}
     <br>
@@ -195,7 +195,7 @@
                 <td>{{ comment["message"] }}</td>
                 <td>{{ comment["submission_time"] }}</td>
                 <td>{{ comment["edited_count"] }}</td>
-                {% if 'user_id' in session %}
+                {% if 'username' in session %}
                     <td>
                         <a href="{{ url_for("update_comment", comment_id=comment["id"], question_id=comment["question_id"]) }}">EDIT</a>
                     </td>
