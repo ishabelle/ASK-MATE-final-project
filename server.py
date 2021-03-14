@@ -2,6 +2,8 @@ import os
 from datetime import timedelta, datetime
 
 from flask import Flask, render_template, request, redirect, url_for, session
+from werkzeug.utils import secure_filename
+
 import util
 import connection
 
@@ -64,7 +66,7 @@ def add_new_question():
         question = {'user_id': session['user_id'], 'submission_time': connection.get_submission_time(),
                     'view_number': 0,
                     'vote_number': 0, 'title': request.form.get('title'),
-                    'message': request.form.get('message'), 'image': None}
+                    'message': request.form.get('message'), 'image': request.form.get('image')}
         connection.insert_question_to_database(question)
         user_id = session['user_id']
         connection.update_question_count(user_id)
