@@ -25,7 +25,7 @@
         <p><a href="{{ url_for("update_question", question_id=question_id) }}" class="myButton">EDIT</a></p>
         <a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='up') }}" class="myButton">VOTE
             UP</a>
-{#        <button type="button" class="vote"><a href="/question/{{ data.id }}/vote_up"><i class="fa fa-thumbs-o-up"></i></a></button>#}
+        {#        <button type="button" class="vote"><a href="/question/{{ data.id }}/vote_up"><i class="fa fa-thumbs-o-up"></i></a></button>#}
         <a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='down') }}" class="myButton">VOTE
             DOWN</a>
     {% endif %}
@@ -102,6 +102,8 @@
     <br>
     <br>
     <br>
+
+
     <h1>ANSWERS:</h1>
     <table class="darkTable">
         <thead>
@@ -137,31 +139,20 @@
                     <td>
                         <a href="{{ url_for('vote_for_answer', answer_id=answer["id"], question_id=answer["question_id"], vote_type='down') }}">VOTE
                             DOWN</a></td>
-
-
-                    {% if answer.validation == False %}
-                        <td>
-                            <button type="button" class="border_btn"><a
-                                    href="/answer/{{ answer.id }}/True">Validate</a>
-                            </button>
-                        </td>
-
-                        </td>
-                    {% else %}
-                        <td>
-                            <button type="button" class="border_btn"><a
-                                    href="/answer/{{ answer.id }}/False">Invalidate</a>
-                            </button>
-
-                        </td>
-                    {% endif %}
-
+                    <td>
+                        {% if answer['validation'] == True %}
+                            <form action="{{ url_for('unaccepted_answer', question_id=answer["question_id"], answer_id=answer['id']) }}"
+                                  method="post">
+                                <button type="submit">UNACCEPTED ANSWER</button>
+                            </form>
+                        {% else %}
+                            <form action="{{ url_for('accepted_answer', question_id=answer["question_id"], answer_id=answer['id']) }}"
+                                  method="post">
+                                <button type="submit">ACCEPTED ANSWER</button>
+                            </form>
+                        {% endif %}
+                    </td>
                 {% endif %}
-                {% if answer.valid %}
-                    <td><h1>&#10004;</h1></td>
-                {% endif %}
-
-
             </tr>
         {% endfor %}
         </tbody>
@@ -170,6 +161,12 @@
     {% if 'username' in session %}
         <a href="{{ url_for('add_new_answer',question_id=question_id) }}" class="myButton">ADD NEW ANSWER</a>
     {% endif %}
+
+
+
+
+
+
     <br>
     <br>
     <h2>COMMENTS TO ANSWERS:</h2>
