@@ -13,5 +13,5 @@
         <input type="submit" value="ADD" class="myButton">
     </form>
     <br>
-    <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
+    <a href="{{ url_for("display_single_question", question_id=question_id) }}" style="color: black">GO BACK TO THE QUESTION PAGE </a>
 {% endblock %}
