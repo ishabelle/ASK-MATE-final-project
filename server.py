@@ -56,7 +56,7 @@ def display_single_question(question_id):
 
 @app.route('/add_new_question', methods=['POST', 'GET'])
 def add_new_question():
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == 'GET':
         return render_template('add_question.html')
@@ -89,7 +89,7 @@ def add_new_answer(question_id):
 
 @app.route('/question/<question_id>/delete', methods=["POST"])
 def delete_question(question_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     connection.delete_question_from_database(question_id)
     return redirect(url_for('display_questions_list', question_id=question_id))
@@ -97,14 +97,14 @@ def delete_question(question_id):
 
 @app.route('/question/<question_id>/delete', methods=["GET"])
 def confirm_delete_question(question_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     return render_template("confirm_delete_question.html", question_id=question_id)
 
 
 @app.route('/answer/<answer_id>/delete')
 def delete_answer(answer_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     question_id = request.args.get('question_id')
     connection.delete_answer_from_database(answer_id)
@@ -113,7 +113,7 @@ def delete_answer(answer_id):
 
 @app.route('/question/<question_id>/edit', methods=["POST", "GET"])
 def update_question(question_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == 'GET':
         title_content = connection.get_question_by_id(question_id)["title"]
@@ -129,7 +129,7 @@ def update_question(question_id):
 
 @app.route('/answer/<answer_id>/edit', methods=["POST", "GET"])
 def update_answer(answer_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == 'GET':
         answer_content = connection.get_answer_by_id(answer_id)["message"]
@@ -143,7 +143,7 @@ def update_answer(answer_id):
 
 @app.route('/comment/<comment_id>/edit', methods=["POST", "GET"])
 def update_comment(comment_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == 'GET':
         comment_content = connection.get_comment_by_id(comment_id)["message"]
@@ -157,7 +157,7 @@ def update_comment(comment_id):
 
 @app.route('/comments/<comment_id>/delete')
 def delete_comment(comment_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     connection.delete_comment_from_database(comment_id)
     question_id = request.args.get('question_id')
@@ -166,7 +166,7 @@ def delete_comment(comment_id):
 
 @app.route('/question/<int:question_id>/vote_down')
 def vote_for_question(question_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     else:
         vote_type = request.args.get('vote_type')
@@ -183,7 +183,7 @@ def vote_for_question(question_id):
 
 @app.route('/answer/<answer_id>/vote', methods=["GET"])
 def vote_for_answer(answer_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     else:
         question_id = request.args.get('question_id')
@@ -201,7 +201,7 @@ def vote_for_answer(answer_id):
 
 @app.route('/question/<question_id>/new-comment', methods=["GET", "POST"])
 def add_comment_to_question(question_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     if request.method == 'GET':
         return render_template('add_comment_for_question.html', question_id=question_id)
@@ -217,7 +217,7 @@ def add_comment_to_question(question_id):
 
 @app.route('/answer/<answer_id>/new-comment', methods=["GET", "POST"])
 def add_comment_to_answer(answer_id):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     question_id = request.args.get("question_id")
     if request.method == 'GET':
@@ -266,7 +266,7 @@ def get_tags_for_question(question_id):
 
 @app.route('/question/<question_id>/delete_tag', methods=["POST"])
 def delete_tag(question_id: int):
-    if 'user_id' not in session:
+    if 'username' not in session:
         return redirect(url_for('login'))
     tags_for_delete = {'question_id': question_id, 'tag_id': request.form.get('tag-id')}
     connection.delete_tag_for_question(tags_for_delete)
@@ -285,7 +285,7 @@ def question_list_by_phrase():
 
 @app.route('/registration', methods=['GET', 'POST'])
 def register():
-    if 'user_id' in session:
+    if 'username' in session:
         return redirect(url_for("display_questions_list"))
     if request.method == 'POST':
         username = request.form.get('username')
@@ -300,7 +300,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'user_id' in session:
+    if 'username' in session:
         return redirect(url_for('display_questions_list'))
     if request.method == 'POST':
         username = request.form.get('username')
@@ -318,7 +318,7 @@ def login():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    if 'user_id' not in session:
+    if 'username' not in session:
         print('You are not logged in!')
     else:
         session.pop('user_id', None)
@@ -332,15 +332,21 @@ def users():
     return render_template("users.html", users=users_data)
 
 
-@app.route("/users/<user_id>")
+@app.route("/users/<user_id>", methods=['GET'])
 def user_page(user_id):
-    if 'user_id' not in session:
-        print('YOU ARE NOT LOG IN!')
-        return redirect(url_for('login'))
+    user = connection.get_user_by_id(user_id)
     questions = connection.get_questions_by_user_id(user_id)
     answers = connection.get_answers_for_question_user_id(user_id)
     comments = connection.get_comments_for_question_user_id(user_id)
-    return render_template("user_id.html", questions=questions, answers=answers, comments=comments)
+    return render_template("user_id.html", user=user, questions=questions, answers=answers, comments=comments)
+
+    # if 'user_id' not in session:
+    #     print('YOU ARE NOT LOG IN!')
+    #     return redirect(url_for('login'))
+    # questions = connection.get_questions_by_user_id(user_id)
+    # answers = connection.get_answers_for_question_user_id(user_id)
+    # comments = connection.get_comments_for_question_user_id(user_id)
+    # return render_template("user_id.html", questions=questions, answers=answers, comments=comments)
 
 
 @app.route('/tags')
