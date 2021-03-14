@@ -423,6 +423,15 @@ def users_data(cursor: RealDictCursor):
 
 
 @common.connection_handler
+def get_user_by_id(cursor: RealDictCursor, id: int):
+    query = """
+        SELECT * FROM users
+        WHERE id = %(id)s"""
+    cursor.execute(query, {'id': id})
+    return cursor.fetchone()
+
+
+@common.connection_handler
 def get_questions_by_user_id(cursor: RealDictCursor, user_id: int):
     query = """
             SELECT id, submission_time, view_number, vote_number, title, message, image
@@ -532,6 +541,7 @@ def gain_reputation(cursor: RealDictCursor, user_id: int, points: int):
     return cursor.execute(query, {
         'user_id': user_id,
         'points': points})
+
 
 @common.connection_handler
 def update_view_number_question(cursor: RealDictCursor, view_number: str, id: int):
