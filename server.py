@@ -340,19 +340,25 @@ def user_page(user_id):
     comments = connection.get_comments_for_question_user_id(user_id)
     return render_template("user_id.html", user=user, questions=questions, answers=answers, comments=comments)
 
-    # if 'user_id' not in session:
-    #     print('YOU ARE NOT LOG IN!')
-    #     return redirect(url_for('login'))
-    # questions = connection.get_questions_by_user_id(user_id)
-    # answers = connection.get_answers_for_question_user_id(user_id)
-    # comments = connection.get_comments_for_question_user_id(user_id)
-    # return render_template("user_id.html", questions=questions, answers=answers, comments=comments)
-
 
 @app.route('/tags')
 def show_tags():
     tags = connection.show_all_tags()
     return render_template("tags.html", tags=tags)
+
+
+@app.route('/accepted-answer/<question_id>/<answer_id>', methods=['POST'])
+def accepted_answer(answer_id, question_id):
+    if request.method == "POST":
+        connection.mark_answer_as_accepted(answer_id)
+        return redirect(url_for('display_single_question', question_id=question_id))
+
+
+@app.route('/unaccepted_answer/<question_id>/<answer_id>', methods=['POST'])
+def unaccepted_answer(answer_id, question_id):
+    if request.method == "POST":
+        connection.unmark_accepted_answer(answer_id)
+        return redirect(url_for('display_single_question', question_id=question_id))
 
 
 # @app.route("/answer/<answer_id>/False")
