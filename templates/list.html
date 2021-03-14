@@ -77,7 +77,6 @@
         <tbody>
         {% for question in questions %}
             <tr>
-                {#                {% for key in question.keys() %}#}
                 <td>{{ question['id'] }}</td>
                 <td>{{ question['user_id'] }}</td>
                 <td>{{ question['submission_time'] }}</td>
@@ -85,11 +84,8 @@
                 <td>{{ question['vote_number'] }}</td>
                 <td>{{ question['title'] }}</td>
                 <td>{{ question['message'] }}</td>
-
                 <td><img src="{{ question['image'] }}" height="150" alt="image from url"></td>
                 <td>{{ question['more'] }}</td>
-
-                {#                {% endfor %}#}
                 <td><a href="{{ url_for('display_single_question',question_id=question['id']) }}">See more</a>
                 </td>
             </tr>
