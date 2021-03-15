@@ -1,19 +1,24 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
-    <table class="table">
-    <thead>
-    <tr>
-        <td scope="col"><h3>TAG</h3></td>
-        <td scope="col"><h3>NUMBER OF QUESTIONS<br>WITH THIS TAG</h3></td>
-    </tr>
-    </thead>
-    <tbody>
-    {% for tag in tags %}
+    <h1>TAG's page</h1>
+    <br>
+    <table class="TagsTable">
+        <thead>
         <tr>
-            <td scope="row"><b>{{ tag['name'] }} </b></td>
-            <td>{{ tag['question_number'] }}</td>
+            <td scope="col"><h3>TAG</h3></td>
+            <td scope="col"><h3>NUMBER OF QUESTIONS WITH TAG</h3></td>
         </tr>
-    {% endfor %}
-    </tbody>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                <td scope="row"><b>{{ tag['name'] }} </b></td>
+                <td>{{ tag['question_number'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
 {% endblock %}
