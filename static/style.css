@@ -182,3 +182,7 @@ h2.Logged {
 p.ProfilePage {
     font-family: Arial Narrow, monospace;
 }
+
+input.ButtonStyle {
+    font-family: Arial Narrow, monospace;
+}
