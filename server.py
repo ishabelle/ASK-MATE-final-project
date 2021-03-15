@@ -2,14 +2,13 @@ import os
 from datetime import timedelta, datetime
 
 from flask import Flask, render_template, request, redirect, url_for, session
-from werkzeug.utils import secure_filename
 
 import util
 import connection
 
 app = Flask(__name__)
 app.secret_key = (os.urandom(16))
-app.permanent_session_lifetime = timedelta(minutes=5)
+app.permanent_session_lifetime = timedelta(minutes=20)
 
 
 @app.route("/")
@@ -43,7 +42,8 @@ def display_single_question(question_id):
     view_number = single_question.get('view_number', '') + 1
     connection.update_view_number_question(view_number, question_id)
     headers = ["ID", "USER ID", "SUBMISSION TIME", "VIEW NUMBER", "VOTE NUMBER", "TITLE", "MESSAGE", "IMAGE"]
-    answer_headers = ["VALIDATION", "ID", "USER ID", "SUBMISSION TIME", "VOTE NUMBER", "QUESTION ID", "MESSAGE", "IMAGE"]
+    answer_headers = ["ID", "USER ID", "SUBMISSION TIME", "VOTE NUMBER", "QUESTION ID", "MESSAGE", "IMAGE",
+                      "VALIDATION"]
     answers_to_single_question = connection.get_answers_by_question_id(question_id)
     comment_to_question = connection.get_comment_for_question(question_id)
     comment_to_answer = connection.get_comment_for_answer(question_id)
@@ -54,6 +54,17 @@ def display_single_question(question_id):
                            answer_headers=answer_headers, answers_to_single_question=answers_to_single_question,
                            comment_to_question=comment_to_question, comment_to_answer=comment_to_answer,
                            all_tags=all_tags, tags_assigned_to_question=tags_assigned_to_question)
+
+
+@app.route('/question/<question_id>/answer/<answer_id>/comments', methods=['GET'])
+def display_comment_to_answer(answer_id, question_id):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    if request.method == 'GET':
+        answer = connection.get_answer_by_id(answer_id)
+        comment_to_answer = connection.get_comment_by_answer_id(answer_id)
+        return render_template('comments_to_answer.html', question_id=question_id, answer_id=answer_id,
+                               comments=comment_to_answer, answer=answer)
 
 
 @app.route('/add_new_question', methods=['POST', 'GET'])
