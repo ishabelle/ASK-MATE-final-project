@@ -2,10 +2,10 @@
 
 {% block content %}
 
-    <h1 class="main-title">Don't even ask, mate!</h1>
-    <div>
+    <h1 class="PageTitle">Don't even ask, mate!</h1>
+    <div class="StickyMenu">
         {% if 'username' in session %}
-            <h4>WELCOME {{ session['username'] }} !</h4>
+            <h1>Welcome, {{ session['username'] }}</h1>
             <a href="logout" style="color: black">LOG OUT</a>
             <br>
             <br>
@@ -19,7 +19,7 @@
                 <input type="submit" value="MY PROFILE" class="myButton">
             </form>
         {% else %}
-            <h4>WELCOME, MATE!</h4>
+            <h1>Welcome, Mate!</h1>
             <a href="registration" style="color: black">REGISTER</a>
             <br>
             <br>
@@ -27,24 +27,27 @@
         {% endif %}
     </div>
     <br>
-    <h1>Search by phrase</h1>
+    <h1>Here you can search question by phrase:</h1>
     <form action="/search">
-        <label for="phrase">Title or message: </label>
+        <label class="LabelTitles" for="phrase">Provide title or message: </label>
         <input name="phrase" type="text" id="phrase">
-        <button type="submit" class="smallButton">Search</button>
+        <br>
+        <br>
+        <button type="submit" class="ButtonStyle">SEARCH</button>
     </form>
+    <br>
     <br>
     {% if title == "List questions" %}
         <form action="{{ url_for('display_questions_list', order_by=order_by, order=order) }}" method="GET">
 
-            <label for="order_by">Sort questions by: </label>
+            <label for="order_by" class="LabelTitles">Sort questions by: </label>
             <select name="order_by" id="order_by">
                 {% for key, option in select_options.items() %}
                     <option {% if key == order_by %}selected{% endif %}
                             value="{{ key }}">{{ option }}</option>
                 {% endfor %}
             </select>
-            <label for="order">Order: </label>
+            <label for="order" class="LabelTitles">In order: </label>
             <select name="order" id="order">
                 {% for option in order_options %}
                     <option {% if option == order %} selected {% endif %}
@@ -52,7 +55,7 @@
                 {% endfor %}
             </select>
             <p>
-                <button type="submit" class="myButton">Sort</button>
+                <button type="submit" class="ButtonStyle">SORT</button>
             </p>
         </form>
     {% endif %}
@@ -60,7 +63,7 @@
     <a href="{{ url_for('show_tags',tags=tags) }}" style="color: black">SHOW ALL TAGS</a>
     <br>
     <br>
-    <table class="darkTable">
+    <table class="MainTable">
         <thead>
         <tr>
             <th>ID</th>
@@ -82,11 +85,10 @@
                 <td>{{ question['submission_time'] }}</td>
                 <td>{{ question['view_number'] }}</td>
                 <td>{{ question['vote_number'] }}</td>
-                <td>{{ question['title'] }}</td>
-                <td>{{ question['message'] }}</td>
+                <td style="width: 7cm">{{ question['title'] }}</td>
+                <td style="width: 15cm">{{ question['message'] }}</td>
                 <td><img src="{{ question['image'] }}" height="150" alt="image from url"></td>
-                <td>{{ question['more'] }}</td>
-                <td><a href="{{ url_for('display_single_question',question_id=question['id']) }}">See more</a>
+                <td><a href="{{ url_for('display_single_question',question_id=question['id']) }}">SEE MORE</a>
                 </td>
             </tr>
         {% endfor %}
@@ -95,9 +97,9 @@
     <br>
     {% if title == "Main page" %}
         <p><a href="{{ url_for('display_questions_list', order_by = 'submission_time', order = 'DESC') }}"
-              style="color: black">List all questions</a></p>
+              style="color: black">LIST ALL QUESTIONS</a></p>
     {% else %}
         <br>
-        <p><a href="{{ url_for('get_5_latest_questions') }}" style="color: black">Go to the main page!</a></p>
+        <p><a href="{{ url_for('get_5_latest_questions') }}" style="color: black">GO BACK TO MAIN PAGE</a></p>
     {% endif %}
 {% endblock %}
