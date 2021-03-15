@@ -11,37 +11,31 @@
             <th>MESSAGE</th>
             <th>SUBMISSION<br>TIME</th>
             <th>EDITED<br>COUNT</th>
-
         </tr>
         <tbody>
-
         {% for comment in comments %}
-
-                <tr>
-                    <td>{{ comment["id"] }}</td>
-                    <td>{{ comment["user_id"] }}</td>
-                    <td>{{ comment["question_id"] }}</td>
-                    <td>{{ comment["answer_id"] }}</td>
-                    <td>{{ comment["message"] }}</td>
-                    <td>{{ comment["submission_time"] }}</td>
-                    <td>{{ comment["edited_count"] }}</td>
-                    {% if 'username' in session %}
-                        <td>
-                            <a href="{{ url_for("update_comment", comment_id=comment["id"], question_id=comment["question_id"]) }}">EDIT</a>
-                        </td>
-                        <td>
-                            <a href="{{ url_for("delete_comment", comment_id=comment["id"], question_id=question_id) }}">DELETE</a>
-                        </td>
-
-
-                </tr>
-
-
-            {% endif %}
+            <tr>
+                <td>{{ comment["id"] }}</td>
+                <td>{{ comment["user_id"] }}</td>
+                <td>{{ comment["question_id"] }}</td>
+                <td>{{ comment["answer_id"] }}</td>
+                <td>{{ comment["message"] }}</td>
+                <td>{{ comment["submission_time"] }}</td>
+                <td>{{ comment["edited_count"] }}</td>
+                {% if 'username' in session %}
+                    <td>
+                        <a href="{{ url_for("update_comment", comment_id=comment["id"], question_id=comment["question_id"]) }}">EDIT</a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for("delete_comment", comment_id=comment["id"], question_id=question_id) }}">DELETE</a>
+                    </td>
+                    </tr>
+                {% endif %}
         {% endfor %}
         </tbody>
     </table>
     <br>
     <br>
-    <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
+    <p><a href="{{ url_for("display_single_question",  question_id=question_id) }}" style="color: black">GO BACK TO
+        PREVIOUS PAGE</a></p>
 {% endblock %}
