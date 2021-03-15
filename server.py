@@ -58,8 +58,6 @@ def display_single_question(question_id):
 
 @app.route('/question/<question_id>/answer/<answer_id>/comments', methods=['GET'])
 def display_comment_to_answer(answer_id, question_id):
-    if 'username' not in session:
-        return redirect(url_for('login'))
     if request.method == 'GET':
         answer = connection.get_answer_by_id(answer_id)
         comment_to_answer = connection.get_comment_by_answer_id(answer_id)
