@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1 class="QuestionTitle"> Don't even ask, mate! - ADD NEW QUESTION</h1>
+    <h2 class="QuestionTitle"> Don't even ask, mate!<br>ADD NEW QUESTION</h2>
     <form action="{{ url_for('add_new_question') }}" method="post">
         <label for="title" class="LabelTitles">Title</label><br>
         <input type="text" name="title" id="title" style="height: 50px; width: 350px"><br>
