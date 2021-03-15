@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h1>Comments to answer: {{ answer['title'] }}</h1>
+    <br>
+    <table class="MainTable">
+        <tr>
+            <th>COMMENT<br>ID</th>
+            <th>USER ID</th>
+            <th>QUESTION<br>ID</th>
+            <th>ANSWER<br>ID</th>
+            <th>MESSAGE</th>
+            <th>SUBMISSION<br>TIME</th>
+            <th>EDITED<br>COUNT</th>
+
+        </tr>
+        <tbody>
+
+        {% for comment in comments %}
+
+                <tr>
+                    <td>{{ comment["id"] }}</td>
+                    <td>{{ comment["user_id"] }}</td>
+                    <td>{{ comment["question_id"] }}</td>
+                    <td>{{ comment["answer_id"] }}</td>
+                    <td>{{ comment["message"] }}</td>
+                    <td>{{ comment["submission_time"] }}</td>
+                    <td>{{ comment["edited_count"] }}</td>
+                    {% if 'username' in session %}
+                        <td>
+                            <a href="{{ url_for("update_comment", comment_id=comment["id"], question_id=comment["question_id"]) }}">EDIT</a>
+                        </td>
+                        <td>
+                            <a href="{{ url_for("delete_comment", comment_id=comment["id"], question_id=question_id) }}">DELETE</a>
+                        </td>
+
+
+                </tr>
+
+
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
+{% endblock %}
