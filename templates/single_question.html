@@ -41,7 +41,6 @@
     <br>
     {% if 'user_id' in session %}
         <table class="HelperTable">
-
             <td><p><a href="{{ url_for("delete_question", question_id=question_id) }}" class="myButton">DELETE<br>QUESTION</a>
             </p>
             </td>
@@ -53,7 +52,6 @@
             <td><a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='down') }}"
                    class="myButton">DISLIKE!<br>QUESTION</a></td>
         </table>
-
         <table class="HelperTable2">
             <td>
                 <h3>TAGS FOR THIS QUESTION:</h3>
@@ -118,13 +116,11 @@
                 <td>{{ comment["edited_count"] }}</td>
                 <td>
                     {% if 'user_id' in session %}
-                        <p>
-                            <a href="{{ url_for("update_comment", comment_id=comment["id"], question_id=question_id) }}"
-                               methods="post">EDIT
-                                COMMENT</a></p>
-                        <p>
-                            <a href="{{ url_for("delete_comment", comment_id=comment["id"], question_id=question_id) }}">DELETE
-                                COMMENT</a></p>
+                        <p><a href="{{ url_for("update_comment", comment_id=comment["id"], question_id=question_id) }}"
+                              methods="post">EDIT
+                            COMMENT</a></p>
+                        <p><a href="{{ url_for("delete_comment", comment_id=comment["id"], question_id=question_id) }}">DELETE
+                            COMMENT</a></p>
                     {% endif %}
                 </td>
             </tr>
@@ -132,13 +128,13 @@
         </tbody>
     </table>
     <br>
-    <table class="HelperTable3">
-        <td><a href="{{ url_for('add_comment_to_question', question_id=question_id) }}" class="myButton">ADD
-            NEW COMMENT</a></td>
-    </table>
+    {% if 'username' in session %}
+        <table class="HelperTable3">
+            <td><a href="{{ url_for('add_comment_to_question', question_id=question_id) }}" class="myButton">ADD
+                NEW COMMENT</a></td>
+        </table>
+    {% endif %}
     <br><br><br><br><br>
-
-
     <h1>Answers</h1>
     {% if 'username' in session %}
         <a href="{{ url_for('add_new_answer',question_id=question_id) }}" class="myButton">ADD NEW ANSWER</a>
@@ -170,27 +166,22 @@
                 <td> {{ answer["message"] }}</td>
                 <td><img src="{{ answer['image'] }}" height="150" alt="image from url"></td>
                 {% if answer['validation'] == True %}
-                    <td><strong>&#9745;</strong></td>
+                    <td><strong style="color: #000000">&#9745;</strong></td>
                 {% else %}
-                    <td><strong>&#9746;</strong></td>
+                    <td><strong style="color: crimson">&#9746;</strong></td>
                 {% endif %}
-
                 {% if 'username' in session %}
                     <td>
                         <p>
                             <a href="{{ url_for("add_comment_to_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">COMMENT
                                 ANSWER</a></p>
-
                         <a href="{{ url_for("update_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">EDIT
                             ANSWER</a>
-
                         <p>
                             <a href="{{ url_for("delete_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">DELETE
                                 ANSWER</a></p>
-
                         <a href="{{ url_for("vote_for_answer", answer_id=answer["id"], question_id=answer["question_id"], vote_type='up') }}">VOTE
                             UP</a>
-
                         <p>
                             <a href="{{ url_for('vote_for_answer', answer_id=answer["id"], question_id=answer["question_id"], vote_type='down') }}">VOTE
                                 DOWN</a></p>

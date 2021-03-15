@@ -88,6 +88,10 @@ table.TagsTable td, table.TagsTable th {
     padding: 1px;
 }
 
+table.TagsTable thead {
+    background-color: #b1c5cd;
+}
+
 table.HelperTable {
     width: 20cm;
     font-family: Arial Narrow, monospace;
