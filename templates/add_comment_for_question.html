@@ -1,15 +1,14 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>ADD NEW COMMENT</h1>
+    <h2 class="QuestionTitle">Add new comment for question</h2>
     <form action="{{ url_for("add_comment_to_question", question_id=question_id) }}" method="POST">
-        <p class="titles">Your comment<br>
-            <label>
-                <textarea rows="4" cols="50" name="message"></textarea>
-            </label>
-        </p>
+        <label class="LabelTitles">
+            <textarea rows="4" cols="50" name="message"></textarea>
+        </label>
         <br>
-        <button type="submit" class="myButton">ADD COMMENT</button>
+        <br>
+        <button type="submit" class="ButtonStyle">ADD COMMENT</button>
     </form>
     <br>
     <p>
