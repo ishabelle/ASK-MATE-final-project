@@ -2,22 +2,20 @@
 
 {% block content %}
     <h1> {{ user['username'] }}'S PROFILE:</h1>
-
+    <h2 class="QuestionTitle"> User's statistics:</h2>
     <br>
-    <p><strong>USER ID:</strong> {{ user['id'] }}</p>
-    <p><strong>USER NAME:</strong> {{ user['username'] }}</p>
-    <p><strong>REGISTRATION DATE:</strong> {{ user['submission_time'] }}</p>
-    <p><strong>NUMBER OF ASKED QUESTIONS:</strong> {{ user['count_questions'] }}</p>
-    <p><strong>NUMBER OF ANSWERS:</strong> {{ user['count_answers'] }}</p>
-    <p><strong>NUMBER OF COMMENTS:</strong> {{ user['count_answers'] }}</p>
-    <p><strong>REPUTATION:</strong> {{ user['reputation'] }}</p>
+    <p class="ProfilePage"><strong>USER ID:</strong> {{ user['id'] }}</p>
+    <p class="ProfilePage"><strong>USER NAME:</strong> {{ user['username'] }}</p>
+    <p class="ProfilePage"><strong>REGISTRATION DATE:</strong> {{ user['submission_time'] }}</p>
+    <p class="ProfilePage"><strong>NUMBER OF ASKED QUESTIONS:</strong> {{ user['count_questions'] }}</p>
+    <p class="ProfilePage"><strong>NUMBER OF ANSWERS:</strong> {{ user['count_answers'] }}</p>
+    <p class="ProfilePage"><strong>NUMBER OF COMMENTS:</strong> {{ user['count_answers'] }}</p>
+    <p class="ProfilePage"><strong>REPUTATION:</strong> {{ user['reputation'] }}</p>
     <br>
     <p><a href="/users" style="color: black">GO BACK TO USERS PAGE</a></p>
     <br>
-    <br>
-
-    <h2>ASKED QUESTIONS</h2>
-    <table>
+    <h2 class="QuestionTitle">Asked questions</h2>
+    <table class="MainTable">
         <thead>
         <tr>
             <td><strong>TITLE</strong></td>
@@ -39,9 +37,9 @@
             </tr>
         {% endfor %}
     </table>
-
-    <h2>POSTED ANSWERS</h2>
-    <table>
+    <br>
+    <h2 class="QuestionTitle">Posted answers</h2>
+    <table class="MainTable">
         <thead>
         <tr>
             <td><strong>QUESTION TITLE</strong></td>
@@ -61,9 +59,9 @@
             </tr>
         {% endfor %}
     </table>
-
-    <h2>POSTED COMMENTS</h2>
-    <table>
+    <br>
+    <h2 class="QuestionTitle">Posted comments</h2>
+    <table class="MainTable">
         <thead>
         <tr>
             <td><strong>QUESTION TITLE</strong></td>
@@ -80,5 +78,7 @@
                 <td>{{ comment.edited_count }}</td>
             </tr>
         {% endfor %}
-
+    </table>
+    <br><br><br>
 {% endblock %}
+
