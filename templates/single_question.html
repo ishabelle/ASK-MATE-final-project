@@ -1,9 +1,18 @@
 {% extends "layout.html" %}
 
 {% block content %}
+    <div class="StickyMenu">
+        {% if 'username' in session %}
+            <h1>You are logged in as:</h1>
+            <h2 class="Logged">{{ session['username'] }}</h2>
+        {% else %}
+            <h1>You are not logged in!</h1>
+        {% endif %}
+    </div>
     <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
-    <h1>YOU ARE REVIEWING THE QUESTION:<br> {{ single_question["title"] }}</h1>
-    <table class="darkTable">
+    <h1>You are reviewing the question:</h1>
+    <h2 class="QuestionTitle"> {{ single_question["title"] }}</h2>
+    <table class="MainTable">
         <thead>
         <tr>
             <th>ID</th>
@@ -14,7 +23,6 @@
             <th>TITLE</th>
             <th>MESSAGE</th>
             <th>IMAGE</th>
-
         </tr>
         </thead>
         <tbody>
@@ -24,66 +32,81 @@
             <td>{{ single_question['submission_time'] }}</td>
             <td>{{ single_question['view_number'] }}</td>
             <td>{{ single_question['vote_number'] }}</td>
-            <td>{{ single_question['title'] }}</td>
-            <td>{{ single_question['message'] }}</td>
+            <td style="width: 7cm">{{ single_question['title'] }}</td>
+            <td style="width: 15cm">{{ single_question['message'] }}</td>
             <td><img src="{{ single_question['image'] }}" height="150" alt="image from url"></td>
         </tr>
         </tbody>
     </table>
     <br>
     {% if 'user_id' in session %}
-        <p><a href="{{ url_for("delete_question", question_id=question_id) }}" class="myButton">DELETE</a></p>
-        <p><a href="{{ url_for("update_question", question_id=question_id) }}" class="myButton">EDIT</a></p>
-        <a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='up') }}" class="myButton">VOTE
-            UP</a>
-        {#        <button type="button" class="vote"><a href="/question/{{ data.id }}/vote_up"><i class="fa fa-thumbs-o-up"></i></a></button>#}
-        <a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='down') }}" class="myButton">VOTE
-            DOWN</a>
+        <table class="HelperTable">
+
+            <td><p><a href="{{ url_for("delete_question", question_id=question_id) }}" class="myButton">DELETE<br>QUESTION</a>
+            </p>
+            </td>
+            <td><p><a href="{{ url_for("update_question", question_id=question_id) }}" class="myButton">EDIT<br>QUESTION</a>
+            </p>
+            </td>
+            <td><a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='up') }}" class="myButton">LIKE!<br>QUESTION</a>
+            </td>
+            <td><a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='down') }}"
+                   class="myButton">DISLIKE!<br>QUESTION</a></td>
+        </table>
+
+        <table class="HelperTable2">
+            <td>
+                <h3>TAGS FOR THIS QUESTION:</h3>
+                <a>{% for tag in tags_assigned_to_question %}
+                    {{ tag['name'] }}
+                {% endfor %}</a>
+            </td>
+            <td>
+                <form action="{{ url_for('add_connection', question_id=question_id, tag_id=tag_id) }}" method="POST">
+                    <label class="LabelTitles">Select tag from list: </label>
+                    <select name="tag-id">
+                        {% for tag in all_tags %}
+                            <option value="{{ tag['id'] }}">{{ tag['name'] }}</option>
+                        {% endfor %}
+                    </select>
+                    <p>
+                        <button type="Submit" class="ButtonStyle">ADD TAG</button>
+                    </p>
+                    <h3>or</h3>
+                    <p><a href="{{ url_for("add_tag", question_id=question_id) }}" class="myButton">ADD NEW TAG</a></p>
+                </form>
+            </td>
+            <td>
+                <form action="{{ url_for('delete_tag', question_id=question_id, tag_id=tag_id) }}" method="POST">
+                    <label>Select tag for delete:</label>
+                    <select name="tag-id">
+                        {% for tag in tags_assigned_to_question %}
+                            <option value="{{ tag['id'] }}">{{ tag['name'] }}</option>
+                        {% endfor %}
+                    </select>
+                    <p>
+                        <button type="Submit" class="ButtonStyle">DELETE TAG</button>
+                    </p>
+                </form>
+            </td>
+        </table>
     {% endif %}
-    <br>
-    <br>
-    <br>
-    {% if 'user_id' in session %}
-        <form action="{{ url_for('add_connection', question_id=question_id, tag_id=tag_id) }}" method="POST">
-            <label>Select tag from existings: </label>
-            <select name="tag-id">
-                {% for tag in all_tags %}
-                    <option value="{{ tag['id'] }}">{{ tag['name'] }}</option>
-                {% endfor %}
-            </select>
-            <button type="Submit" class="smallButton">ADD TAG</button>
-            <p>or</p>
-            <p><a href="{{ url_for("add_tag", question_id=question_id) }}" class="myButton">ADD NEW TAG</a></p>
-        </form>
-    {% endif %}
-    <br>
-    <h2>TAGS FOR QUESTION:</h2>
-    <h4>{% for tag in tags_assigned_to_question %}
-        {{ tag['name'] }}<br>
-    {% endfor %}</h4>
-    <br>
+    <br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br>
     <a href="{{ url_for('show_tags',tags=tags) }}" style="color: black">SHOW ALL TAGS</a>
+    <br><br>
     <br>
-    {% if 'user_id' in session %}
-        <form action="{{ url_for('delete_tag', question_id=question_id, tag_id=tag_id) }}" method="POST">
-            <label>Select tag for delete:</label>
-            <select name="tag-id">
-                {% for tag in tags_assigned_to_question %}
-                    <option value="{{ tag['id'] }}">{{ tag['name'] }}</option>
-                {% endfor %}
-            </select>
-            <button type="Submit" class="smallButton">DELETE TAG</button>
-        </form>
-    {% endif %}
-    <br>
-    <h2>COMMENTS TO QUESTION:</h2>
-    <table class="darkTable">
+    <h2 class="QuestionTitle">COMMENTS TO QUESTION</h2>
+    <table class="MainTable">
         <thead>
         <tr>
             <th>ID</th>
             <th>MESSAGE</th>
             <th>SUBMISSION TIME</th>
             <th>EDITED COUNT</th>
+            {% if 'user_id' in session %}
+                <th>MORE</th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -93,71 +116,89 @@
                 <td>{{ comment["message"] }}</td>
                 <td>{{ comment["submission_time"] }}</td>
                 <td>{{ comment["edited_count"] }}</td>
-                {% if 'user_id' in session %}
-                    <td>
-                        <a href="{{ url_for("update_comment", comment_id=comment["id"], question_id=question_id) }}">EDIT</a>
-                    </td>
-                    <td>
-                        <a href="{{ url_for("delete_comment", comment_id=comment["id"], question_id=question_id) }}">DELETE</a>
-                    </td>
-                {% endif %}
+                <td>
+                    {% if 'user_id' in session %}
+                        <p>
+                            <a href="{{ url_for("update_comment", comment_id=comment["id"], question_id=question_id) }}"
+                               methods="post">EDIT
+                                COMMENT</a></p>
+                        <p>
+                            <a href="{{ url_for("delete_comment", comment_id=comment["id"], question_id=question_id) }}">DELETE
+                                COMMENT</a></p>
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <br>
+    <table class="HelperTable3">
+        <td><a href="{{ url_for('add_comment_to_question', question_id=question_id) }}" class="myButton">ADD
+            NEW COMMENT</a></td>
+    </table>
+    <br><br><br><br><br>
+
+
+    <h1>Answers</h1>
     {% if 'username' in session %}
-        <p><a href="{{ url_for('add_comment_to_question', question_id=question_id) }}" class="myButton">ADD NEW
-            COMMENT</a>
-        </p>
+        <a href="{{ url_for('add_new_answer',question_id=question_id) }}" class="myButton">ADD NEW ANSWER</a>
     {% endif %}
-    <br>
-    <br>
-    <br>
-
-
-    <h1>ANSWERS:</h1>
-    <table class="darkTable">
+    <br><br>
+    <table class="MainTable">
         <thead>
         <tr>
-            {% for header in answer_headers %}
-                <th scope="col">{{ header }}</th>
-            {% endfor %}
+            <th>ID</th>
+            <th>USER ID</th>
+            <th>SUBMISSION TIME</th>
+            <th>VOTE NUMBER</th>
+            <th>QUESTION ID</th>
+            <th>MESSAGE</th>
+            <th>IMAGE</th>
+            <th>VALIDATION</th>
+            <th>ACTIONS</th>
+            <th>COMMENTS TO ANSWER</th>
+
+
         </tr>
         </thead>
         <tbody>
         {% for answer in answers_to_single_question %}
             <tr>
+                <td> {{ answer["id"] }}</td>
+                <td> {{ answer["user_id"] }}</td>
+                <td> {{ answer["submission_time"] }}</td>
+                <td> {{ answer["vote_number"] }}</td>
+                <td> {{ answer["question_id"] }}</td>
+                <td> {{ answer["message"] }}</td>
+                <td><img src="{{ answer['image'] }}" height="150" alt="image from url"></td>
                 {% if answer['validation'] == True %}
                     <td><strong>&#9745;</strong></td>
                 {% else %}
                     <td><strong>&#9746;</strong></td>
                 {% endif %}
 
-                <td> {{ answer["id"] }}</td>
-                <td>{{ answer["user_id"] }}</td>
-                <td> {{ answer["submission_time"] }}</td>
-                <td> {{ answer["vote_number"] }}</td>
-                <td> {{ answer["question_id"] }}</td>
-                <td> {{ answer["message"] }}</td>
-                <td><img src="{{ answer['image'] }}" height="150" alt="image from url"></td>
-
-
                 {% if 'username' in session %}
                     <td>
-                        <a href="{{ url_for("add_comment_to_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">COMMENT
-                            ANSWER</a></td>
-                    <td>
+                        <p><a href="{{ url_for("add_comment_to_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">COMMENT
+                            ANSWER</a></p>
+
                         <a href="{{ url_for("update_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">EDIT
-                            ANSWER</a></td>
-                    <td>
-                        <a href="{{ url_for("delete_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">DELETE
-                            ANSWER</a></td>
-                    <td>
+                            ANSWER</a>
+
+                        <p>
+                            <a href="{{ url_for("delete_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">DELETE
+                                ANSWER</a></p>
+
                         <a href="{{ url_for("vote_for_answer", answer_id=answer["id"], question_id=answer["question_id"], vote_type='up') }}">VOTE
-                            UP</a></td>
+                            UP</a>
+
+                        <p>
+                            <a href="{{ url_for('vote_for_answer', answer_id=answer["id"], question_id=answer["question_id"], vote_type='down') }}">VOTE
+                                DOWN</a></p>
+                    </td>
                     <td>
-                        <a href="{{ url_for('vote_for_answer', answer_id=answer["id"], question_id=answer["question_id"], vote_type='down') }}">VOTE
-                            DOWN</a></td>
+                    <p><a href="{{ url_for('display_comment_to_answer', question_id=answer["question_id"], answer_id=answer["id"]) }}" style="color: black">SEE COMMENTS FOR THIS ANSWER</a></p>
+                    </td>
                     <td>
                         {% if session['user_id'] == single_question['user_id'] %}
                             {% if answer['validation'] == True %}
@@ -172,60 +213,13 @@
                                 </form>
                             {% endif %}
                         {% endif %}
-
                     </td>
                 {% endif %}
             </tr>
         {% endfor %}
         </tbody>
+        <br>
+        <br>
     </table>
-    <br>
-    {% if 'username' in session %}
-        <a href="{{ url_for('add_new_answer',question_id=question_id) }}" class="myButton">ADD NEW ANSWER</a>
-    {% endif %}
-
-
-
-
-
-
-    <br>
-    <br>
-    <h2>COMMENTS TO ANSWERS:</h2>
-    <table class="darkTable">
-        <thead>
-        <tr>
-            <th>COMMENT<br>ID</th>
-            <th>USER ID</th>
-            <th>QUESTION<br>ID</th>
-            <th>ANSWER<br>ID</th>
-            <th>MESSAGE</th>
-            <th>SUBMISSION<br>TIME</th>
-            <th>EDITED<br>COUNT</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for comment in comment_to_answer %}
-            <tr>
-                <td>{{ comment["id"] }}</td>
-                <td>{{ comment["user_id"] }}</td>
-                <td>{{ comment["question_id"] }}</td>
-                <td>{{ comment["answer_id"] }}</td>
-                <td>{{ comment["message"] }}</td>
-                <td>{{ comment["submission_time"] }}</td>
-                <td>{{ comment["edited_count"] }}</td>
-                {% if 'username' in session %}
-                    <td>
-                        <a href="{{ url_for("update_comment", comment_id=comment["id"], question_id=comment["question_id"]) }}">EDIT</a>
-                    </td>
-                    <td>
-                        <a href="{{ url_for("delete_comment", comment_id=comment["id"], question_id=question_id) }}">DELETE</a>
-                    </td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<br><br><br>
 {% endblock %}
-<br>
-<br>
