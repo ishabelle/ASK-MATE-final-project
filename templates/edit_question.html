@@ -2,7 +2,7 @@
 
 {% block content %}
     <body>
-    <h1 class="QuestionTitle">EDIT QUESTION</h1>
+    <h2 class="QuestionTitle">Edit question</h2>
     <form method="POST">
         <label for="title" class="LabelTitles">TITLE</label><br>
         <textarea rows="2" cols="50" required id="title" name="title">{{ title_content }}</textarea><br>
@@ -15,6 +15,6 @@
     </form>
     </body>
     <br>
-    <p><a href="{{ url_for("display_single_question", question_id=question_id) }}" style="color: black">GO BACK
+    <p><a href="{{ url_for("display_single_question", question_id=question_id) }}"  style="color: black">GO BACK
         TO PREVIOUS PAGE</a></p>
 {% endblock %}
