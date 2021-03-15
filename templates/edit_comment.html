@@ -2,14 +2,15 @@
 
 {% block content %}
     <body>
-    <br>
+    <h2 class="QuestionTitle">Edit comment</h2>
     <form method="POST">
-        <label for="message" class="titles">Edit comment:</label>
+        <label for="message" class="LabelTitles"></label>
         <br>
+        <textarea rows="6" cols="50" required id="message" name="message">{{ comment_content }}</textarea><br>
         <br>
-        <textarea rows="4" cols="50" required id="message" name="message">{{ comment_content }}</textarea><br>
-        <br>
-        <input type="submit" value="Update" class="myButton">
+        <input type="submit" value="UPDATE COMMENT" class="ButtonStyle">
     </form>
     </body>
-{% endblock %}
+    <br>
+
+    {% endblock %}
