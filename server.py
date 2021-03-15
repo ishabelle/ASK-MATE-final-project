@@ -372,24 +372,6 @@ def unaccepted_answer(answer_id, question_id):
         return redirect(url_for('display_single_question', question_id=question_id))
 
 
-# @app.route("/answer/<answer_id>/False")
-# def valid_answer_False(answer_id):
-#     validation = False
-#     answers = connection.get_answer_by_id(answer_id)
-#     question_id = answers.get('question_id', '')
-#     connection.valid_answer(validation, answer_id)
-#     return redirect(url_for('display_single_question', question_id=question_id))
-#
-#
-# @app.route("/answer/<answer_id>/True")
-# def valid_answer_True(answer_id):
-#     validation = True
-#     answers = connection.get_answer_by_id(answer_id)
-#     question_id = answers.get('question_id', '')
-#     connection.valid_answer(validation, answer_id)
-#     return redirect(url_for('display_single_question', question_id=question_id))
-
-
 if __name__ == "__main__":
     app.debug = True
     app.run()
