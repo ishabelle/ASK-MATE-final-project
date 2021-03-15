@@ -1,16 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content %}
+    <h2 class="QuestionTitle">Add new anwser</h2>
     <form action="{{ url_for('add_new_answer', question_id=question_id) }}" method="post">
-        <label for="message" class="titles">Your Answer:</label>
+        <label for="message" class="LabelTitles"></label>
+        <br>
+        <textarea name="message" rows="10" cols="50"></textarea>
         <br>
         <br>
-        <textarea name="message" rows="4" cols="50"></textarea>
-        <br>
-        <br>
-        <label for="image">Add your image url:</label>
+        <label for="image" class="LabelTitles">Add your image url:</label>
         <input type="url" id="image" name="image" placeholder="url"><br>
-        <input type="submit" value="ADD" class="myButton">
+        <br>
+        <input type="submit" value="ADD NEW ANSWER" class="ButtonStyle">
     </form>
     <br>
     <a href="{{ url_for("display_single_question", question_id=question_id) }}" style="color: black">GO BACK TO THE
