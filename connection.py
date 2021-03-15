@@ -267,6 +267,16 @@ def get_comment_by_id(cursor: RealDictCursor, comment_id: int):
 
 
 @common.connection_handler
+def get_comment_by_answer_id(cursor: RealDictCursor, answer_id: int):
+    query = """
+    SELECT * FROM comment
+    WHERE answer_id = %(answer_id)s
+    """
+    cursor.execute(query, {'answer_id': answer_id})
+    return cursor.fetchall()
+
+
+@common.connection_handler
 def insert_comment_answer_to_database(cursor: RealDictCursor, new_comment: dict):
     query = """
     INSERT INTO comment(user_id, question_id, answer_id, message, submission_time, edited_count)
