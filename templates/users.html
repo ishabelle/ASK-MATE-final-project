@@ -1,16 +1,16 @@
 {% extends 'layout.html' %}
 {% block content %}
-
-    <table class="darkTable">
+<h1 class="PageTitle">Registered users</h1>
+    <table class="MainTable">
         <thead>
         <tr>
-            <td>USERNAME</td>
-            <td>REGISTRATION<br>DATE</td>
-            <td>COUNT OF<br>ASKED QUESTIONS</td>
-            <td>COUNT OF<br> ANSWERS</td>
-            <td>COUNT OF<br> COMMENTS</td>
-            <td>REPUTATION</td>
-            <td>SEE MORE</td>
+            <td><strong>USERNAME</strong></td>
+            <td><strong>REGISTRATION<br>DATE</strong></td>
+            <td><strong>COUNT OF<br>ASKED QUESTIONS</strong></td>
+            <td><strong>COUNT OF<br> ANSWERS</strong></td>
+            <td><strong>COUNT OF<br> COMMENTS</strong></td>
+            <td><strong>REPUTATION</strong></td>
+            <td><strong>SEE MORE</strong></td>
         </tr>
         </thead>
         <tbody>
@@ -23,7 +23,7 @@
                 <td>{{ user.count_comments }}</td>
                 <td>{{ user.reputation }}</td>
                 <td><form action="{{ url_for('user_page', user_id = user.id) }}" method="get">
-                    <input type="submit" value="DETAILS" class="myButton">
+                    <input type="submit" value="DETAILS" class="ButtonStyle">
                 </form></td>
             </tr>
         {% endfor %}
