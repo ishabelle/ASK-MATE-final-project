@@ -155,10 +155,8 @@
             <th>MESSAGE</th>
             <th>IMAGE</th>
             <th>VALIDATION</th>
-            <th>ACTIONS</th>
             <th>COMMENTS TO ANSWER</th>
-
-
+            <th>ACTIONS</th>
         </tr>
         </thead>
         <tbody>
@@ -179,8 +177,9 @@
 
                 {% if 'username' in session %}
                     <td>
-                        <p><a href="{{ url_for("add_comment_to_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">COMMENT
-                            ANSWER</a></p>
+                        <p>
+                            <a href="{{ url_for("add_comment_to_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">COMMENT
+                                ANSWER</a></p>
 
                         <a href="{{ url_for("update_answer", answer_id=answer["id"], question_id=answer["question_id"]) }}">EDIT
                             ANSWER</a>
@@ -196,9 +195,13 @@
                             <a href="{{ url_for('vote_for_answer', answer_id=answer["id"], question_id=answer["question_id"], vote_type='down') }}">VOTE
                                 DOWN</a></p>
                     </td>
-                    <td>
-                    <p><a href="{{ url_for('display_comment_to_answer', question_id=answer["question_id"], answer_id=answer["id"]) }}" style="color: black">SEE COMMENTS FOR THIS ANSWER</a></p>
-                    </td>
+                {% endif %}
+                <td>
+                    <p>
+                        <a href="{{ url_for('display_comment_to_answer', question_id=answer["question_id"], answer_id=answer["id"]) }}"
+                           style="color: black">SEE COMMENTS FOR THIS ANSWER</a></p>
+                </td>
+                {% if 'username' in session %}
                     <td>
                         {% if session['user_id'] == single_question['user_id'] %}
                             {% if answer['validation'] == True %}
@@ -221,5 +224,5 @@
         <br>
         <br>
     </table>
-<br><br><br>
+    <br><br><br>
 {% endblock %}
