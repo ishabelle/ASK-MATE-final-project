@@ -7,27 +7,37 @@
         {% if 'username' in session %}
             <h1>Welcome, {{ session['username'] }}</h1>
             <form action="{{ url_for('user_page', user_id=session['user_id']) }}" method="GET">
-                <input type="submit" value="MY PROFILE" class="myButton">
+                <button class="btn"><i class="fa fa-address-card">MY PROFILE</i></button>
             </form>
             <br>
-            <a href="logout" style="color: black">LOG OUT</a>
-            <br><br>
-            <br><br>
-            <a href="add_new_question" style="color: black" methods="post">ADD NEW QUESTION</a>
+            <form action="/logout">
+                <button class="btn"><i class="fa fa-close"> LOG OUT</i></button>
+            </form>
+            <br><br><br>
+            <form action="/users">
+                <button class="btn"><i class="fa fa-users"> OTHER USERS</i></button>
+            </form>
             <br>
             <br>
-            <a href="users" style="color: black">USERS</a>
-            <br>
-            <br>
-
         {% else %}
             <h1>Welcome, Mate!</h1>
-            <a href="registration" style="color: black">REGISTER</a>
+            <form action="/registration">
+                <button class="btn"><i class="fa fa-edit"> REGISTRATION</i></button>
+            </form>
+
             <br>
             <br>
-            <a href="login" style="color: black">LOGIN</a>
+            <form action="/login">
+                <button class="btn"><i class="fa fa-check"> LOG IN</i></button>
+            </form>
         {% endif %}
     </div>
+    {% if 'username' in session %}
+        <form action="add_new_question" style="color: black" methods="post">
+            <button class="bigbtn"><i class="fa fa-question"> ASK NEW QUESTION</i></button>
+        </form>
+    {% endif %}
+    <br>
     <br>
     <h1>Here you can search question by phrase:</h1>
     <form action="/search">
