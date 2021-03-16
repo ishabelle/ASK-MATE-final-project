@@ -23,7 +23,7 @@
                 <td>{{ user.count_comments }}</td>
                 <td>{{ user.reputation }}</td>
                 <td><form action="{{ url_for('user_page', user_id = user.id) }}" method="get">
-                    <input type="submit" value="DETAILS" class="ButtonStyle">
+                    <button type="submit" class="ButtonStyle">DETAILS</button>
                 </form></td>
             </tr>
         {% endfor %}
