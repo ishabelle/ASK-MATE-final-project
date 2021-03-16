@@ -1,5 +1,5 @@
 table.MainTable {
-    width: 80%;
+    width: 40cm;
     font-family: Arial Narrow, monospace;
     background-color: #ffffff;
     border-collapse: separate;
@@ -126,8 +126,8 @@ table.HelperTable2 {
     border-color: #89a0a9;
     border-style: groove;
     text-align: center;
-    float: left;
-    margin-left: 10%;
+    float: right;
+    margin-right: 10%;
     color: #000000;
 }
 
@@ -172,7 +172,20 @@ a {
 }
 
 button.ButtonStyle {
+    background-color: #89a0a9;
+    border: none;
+    color: white;
+    display: inline-block;
+    font-size: 17px;
     font-family: Arial Narrow, monospace;
+    margin: 0;
+    padding: 5px 5px;
+    cursor: pointer;
+}
+
+button.ButtonStyle:hover {
+    background-color: #37555f;
+    color: black;
 }
 
 h2.Logged {
@@ -185,4 +198,34 @@ p.ProfilePage {
 
 input.ButtonStyle {
     font-family: Arial Narrow, monospace;
+}
+
+.btn {
+    background-color: #89a0a9;
+    border-radius: 2px;
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    font-size: 16px;
+    font-family: Arial Narrow, monospace;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #37555f;
+}
+
+.bigbtn {
+    background-color: #89a0a9;
+    border-radius: 2px;
+    border: none;
+    color: white;
+    padding: 5px 5px;
+    font-size: 25px;
+    font-family: Arial Narrow, monospace;
+    cursor: pointer;
+}
+
+.bigbtn:hover {
+    background-color: #37555f;
 }
