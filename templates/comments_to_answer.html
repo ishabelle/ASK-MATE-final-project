@@ -3,6 +3,7 @@
     <h1>Comments to answer: {{ answer['title'] }}</h1>
     <br>
     <table class="MainTable">
+        <thead>
         <tr>
             <th>COMMENT<br>ID</th>
             <th>USER ID</th>
@@ -12,6 +13,7 @@
             <th>SUBMISSION<br>TIME</th>
             <th>EDITED<br>COUNT</th>
         </tr>
+        </thead>
         <tbody>
         {% for comment in comments %}
             <tr>
