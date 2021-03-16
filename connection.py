@@ -1,11 +1,10 @@
-from functools import reduce
+import datetime
 
 import bcrypt
 from flask import session
+from psycopg2.extras import RealDictCursor
 
 import common
-from psycopg2.extras import RealDictCursor
-import datetime
 
 
 def get_submission_time():
@@ -79,7 +78,8 @@ def get_answers_by_question_id(cursor: RealDictCursor, id: int):
 def insert_question_to_database(cursor: RealDictCursor, question: dict):
     query = """
             INSERT INTO question (user_id, submission_time, title, message, vote_number, view_number, image)
-            VALUES (%(user_id)s, %(submission_time)s, %(title)s, %(message)s, %(vote_number)s, %(view_number)s, %(image)s);
+            VALUES (%(user_id)s, %(submission_time)s, %(title)s, %(message)s, %(vote_number)s, %(view_number)s,
+             %(image)s);
             """
     cursor.execute(query, {
         'user_id': question['user_id'],
@@ -163,7 +163,7 @@ def update_answer_in_database(cursor: RealDictCursor, message: str, id: int):
 
 
 @common.connection_handler
-def update_comment_in_database(cursor: RealDictCursor, message: str, id: int) -> list:
+def update_comment_in_database(cursor: RealDictCursor, message: str, id: int) -> str:
     query = """
      UPDATE comment
      SET submission_time = %(submission_time)s, message = %(message)s, edited_count = edited_count + 1
