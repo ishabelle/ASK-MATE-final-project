@@ -66,8 +66,7 @@ h2.QuestionTitle {
     top: 50px;
     width: 20em;
     margin-top: -2.5em;
-    round-clip: 10%;
-}
+    }
 
 table.TagsTable {
     width: 10cm;
@@ -101,8 +100,6 @@ table.HelperTable {
     border-color: #89a0a9;
     border-style: groove;
     text-align: center;
-    float: right;
-    margin-right: 10%;
     color: #000000;
 }
 
@@ -126,8 +123,6 @@ table.HelperTable2 {
     border-color: #89a0a9;
     border-style: groove;
     text-align: center;
-    float: right;
-    margin-right: 10%;
     color: #000000;
 }
 
@@ -151,8 +146,6 @@ table.HelperTable3 {
     border-color: #89a0a9;
     border-style: groove;
     text-align: center;
-    float: right;
-    margin-right: 10%;
     color: #000000;
 }
 
