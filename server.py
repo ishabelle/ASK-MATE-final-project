@@ -290,7 +290,7 @@ def question_list_by_phrase():
     if phrase:
         questions = connection.get_question_by_phrase(phrase)
     else:
-        return redirect(url_for('index'))
+        return redirect(url_for('get_5_latest_questions'))
     return render_template('list.html', questions=questions)
 
 
