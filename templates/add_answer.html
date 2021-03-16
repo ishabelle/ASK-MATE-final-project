@@ -5,7 +5,9 @@
     <form action="{{ url_for('add_new_answer', question_id=question_id) }}" method="post">
         <label for="message" class="LabelTitles"></label>
         <br>
-        <textarea name="message" rows="10" cols="50"></textarea>
+        <label>
+            <textarea name="message" rows="10" cols="50"></textarea>
+        </label>
         <br>
         <br>
         <label for="image" class="LabelTitles">Add your image url:</label>
