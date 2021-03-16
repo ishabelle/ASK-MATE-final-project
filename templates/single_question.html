@@ -5,13 +5,20 @@
         {% if 'username' in session %}
             <h1>You are logged in as:</h1>
             <h2 class="Logged">{{ session['username'] }}</h2>
+            <form action="/logout">
+                <button class="btn"><i class="fa fa-close"> LOG OUT</i></button>
+            </form>
         {% else %}
             <h1>You are not logged in!</h1>
+            <form action="/login">
+                <button class="btn"><i class="fa fa-check"> LOG IN</i></button>
+            </form>
         {% endif %}
     </div>
     <p><a href="/" style="color: black">GO BACK TO MAIN PAGE</a></p>
     <h1>You are reviewing the question:</h1>
     <h2 class="QuestionTitle"> {{ single_question["title"] }}</h2>
+    <br><br>
     <table class="MainTable">
         <thead>
         <tr>
@@ -52,6 +59,7 @@
             <td><a href="{{ url_for("vote_for_question", question_id=question_id, vote_type='down') }}"
                    class="myButton">DISLIKE!<br>QUESTION</a></td>
         </table>
+        <br>
         <table class="HelperTable2">
             <td>
                 <h3>TAGS FOR THIS QUESTION:</h3>
@@ -89,8 +97,7 @@
             </td>
         </table>
     {% endif %}
-    <br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br>
+    <br><br><br>
     <a href="{{ url_for('show_tags',tags=tags) }}" style="color: black">SHOW ALL TAGS</a>
     <br><br>
     <br>
@@ -136,10 +143,6 @@
     {% endif %}
     <br><br><br><br><br>
     <h1>Answers</h1>
-    {% if 'username' in session %}
-        <a href="{{ url_for('add_new_answer',question_id=question_id) }}" class="myButton">ADD NEW ANSWER</a>
-    {% endif %}
-    <br><br>
     <table class="MainTable">
         <thead>
         <tr>
@@ -150,7 +153,7 @@
             <th>QUESTION ID</th>
             <th>MESSAGE</th>
             <th>IMAGE</th>
-            <th>VALIDATION</th>
+            <th>ACCEPTATION</th>
             <th>COMMENTS TO ANSWER</th>
             <th>ACTIONS</th>
         </tr>
@@ -166,9 +169,9 @@
                 <td> {{ answer["message"] }}</td>
                 <td><img src="{{ answer['image'] }}" height="150" alt="image from url"></td>
                 {% if answer['validation'] == True %}
-                    <td><strong style="color: #000000">&#9745;</strong></td>
+                    <td><strong style="color: #000000; font-size: 50px">&#9745;</strong></td>
                 {% else %}
-                    <td><strong style="color: crimson">&#9746;</strong></td>
+                    <td><strong style="color: crimson; font-size: 50px">&#9746;</strong></td>
                 {% endif %}
                 {% if 'username' in session %}
                     <td>
@@ -215,5 +218,13 @@
         <br>
         <br>
     </table>
+    <br>
+    {% if 'username' in session %}
+        <table class="HelperTable3">
+            <td><a href="{{ url_for('add_new_answer',question_id=question_id) }}" class="myButton">ADD NEW ANSWER</a>
+            </td>
+        </table>
+    {% endif %}
+    <br>
     <br><br><br>
 {% endblock %}
