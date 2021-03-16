@@ -4,15 +4,19 @@
     <body>
     <h2 class="QuestionTitle">Edit answer</h2>
     <form method="POST">
-        <label for="message" class="titles">Edit your answer: </label>
+        <label for="message" class="LabelTitles">Edit your answer: </label>
         <br>
         <br>
-        <textarea rows="4" cols="50" required id="message" name="message">{{ answer_content }}</textarea>
+        <textarea rows="10" cols="50" required id="message" name="message">{{ answer_content }}</textarea>
         <br>
         <br>
-        <input type="file" name="file" value="CHOSE FILE" accept="image/png, image/jpeg">
-        <br>
+         <label for="image" class="LabelTitles">Add your image url:</label>
+        <input type="url" id="image" name="image" placeholder="url">
+        <br><br>
         <input type="submit" value="UPDATE ANSWER" class="myButton">
     </form>
     </body>
+    <br>
+    <p><a href="/" methods="post" style="color: black">GO BACK
+        TO MAIN PAGE</a></p>
 {% endblock %}
