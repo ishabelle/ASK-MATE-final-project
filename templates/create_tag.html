@@ -4,7 +4,9 @@
     <h2 class="QuestionTitle">ADD NEW TAG</h2>
     <form action="{{ url_for('add_tag', question_id=question_id) }}" method="post">
         <br>
-        <input type="text" name="tag" id="tag">
+        <label for="tag">
+            <input type="text" name="tag" id="tag">
+        </label>
         <br>
         <br>
         <br>
