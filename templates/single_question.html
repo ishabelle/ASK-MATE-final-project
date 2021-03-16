@@ -70,11 +70,13 @@
             <td>
                 <form action="{{ url_for('add_connection', question_id=question_id, tag_id=tag_id) }}" method="POST">
                     <label class="LabelTitles">Select tag from list: </label>
-                    <select name="tag-id">
-                        {% for tag in all_tags %}
-                            <option value="{{ tag['id'] }}">{{ tag['name'] }}</option>
-                        {% endfor %}
-                    </select>
+                    <label>
+                        <select name="tag-id">
+                            {% for tag in all_tags %}
+                                <option value="{{ tag['id'] }}">{{ tag['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
                     <p>
                         <button type="Submit" class="ButtonStyle">ADD TAG</button>
                     </p>
@@ -85,11 +87,13 @@
             <td>
                 <form action="{{ url_for('delete_tag', question_id=question_id, tag_id=tag_id) }}" method="POST">
                     <label>Select tag for delete:</label>
-                    <select name="tag-id">
-                        {% for tag in tags_assigned_to_question %}
-                            <option value="{{ tag['id'] }}">{{ tag['name'] }}</option>
-                        {% endfor %}
-                    </select>
+                    <label>
+                        <select name="tag-id">
+                            {% for tag in tags_assigned_to_question %}
+                                <option value="{{ tag['id'] }}">{{ tag['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
                     <p>
                         <button type="Submit" class="ButtonStyle">DELETE TAG</button>
                     </p>
